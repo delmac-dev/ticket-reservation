@@ -1,5 +1,5 @@
-export function checkReservationPage(element) {
-    element.innerHtml = `
-        // html code
-    `
+export default function checkPage(element) {
+    element.html(`
+        check reservation page
+    `)
 }

@@ -1,5 +1,6 @@
-export function makeReservationPage(element) {
-    element.innerHtml = `
-        // html code
-    `
+export default function reservePage(element) {
+    console.log(element);
+    element.html(`
+        make reservation page
+    `)
 }

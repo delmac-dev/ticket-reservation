@@ -1,5 +1,5 @@
-export function showPassengers(element) {
-    element.innerHtml = `
-        // html code
-    `
+export function showPage(element) {
+    element.html(`
+        view all passengers page
+    `)
 }
