@@ -4,9 +4,12 @@ import homePage from "./pages/home";
 import reservePage from "./pages/reserve";
 import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
+import AirlineList from "./classes/airline";
 
 $(function() {
     // initialise airline data
+    AirlineList.populate(getData("airline"));
+
     // initialise db
     Database.init(getData("flights"),getData("reservations"),getData("tickets"));
 
@@ -60,4 +63,20 @@ function getData(name) {
         // If data doesn't exist, return null or handle the situation according to your needs
         return [];
     }
-};
+}
+
+function saveData(data, name) {
+    // Convert the data to a JSON string
+    const jsonData = JSON.stringify(data);
+
+    // Save the JSON string to local storage with the provided name
+    localStorage.setItem(name, jsonData);
+}
+
+const airlines = [
+    {
+        name: "Ghana Airways",
+        h
+        
+    }
+]
