@@ -17,6 +17,15 @@ const dateConfig = {
   maxDate: new Date().fp_incr(14),
 }
 
+  // initialise airline data
+  AirlineList.populate(airlines);
+
+  // initialise db
+  Database.init(getData("flights"),getData("reservations"),getData("tickets"));
+
+  // initialise system
+  const app = new ReservationSystem();
+
 $(function() {
     // use flatpickr for selecting date
     flatpickr("#date", dateConfig);
@@ -29,15 +38,6 @@ $(function() {
 
     // handle flight booked
     handleBookFlight($("#confirm-flight"));
-    
-    // initialise airline data
-    AirlineList.populate(airlines);
-
-    // initialise db
-    Database.init(getData("flights"),getData("reservations"),getData("tickets"));
-
-    // initialise system
-    const app = new ReservationSystem();
 
     // on page load set app content to home;
     homePage($("#app"));
@@ -48,21 +48,21 @@ $(function() {
 
 function togglePages(btns) {
     btns.on('click', function() {
-        let app = $("#app");
+        let body = $("#app");
         toggleActive(btns, this);
         const page = $(this).data('page');
         switch(page) {
           case 'home':
-            homePage(app);
+            homePage(body);
             break;
           case 'reserve':
-            reservePage(app);
+            reservePage(body);
             break;
           case 'check':
-            checkPage(app);
+            checkPage(body);
             break;
           case 'show':
-            showPage(app);
+            showPage(body);
             break;
           default:
             break;
@@ -112,8 +112,11 @@ function handleBookFlight(element) {
     let departureDate = $("#date").val();
     let departureTime = $("#time").val();
 
+    
     if(!departure|| !destination || !airline || !departureDate || !departureTime) return;
-
+    
+    app.init(airline, departure, destination, departureDate, departureTime);
+    
     $('[data-page="reserve"]').trigger("click");
   })
 }

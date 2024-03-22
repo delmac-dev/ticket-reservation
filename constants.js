@@ -34,7 +34,7 @@ export const destinationLocations = [
 ]
 
 export const availableDeparturtimes = [
-  {time: "4: 30", name: "Dawn"},
-  {time: "1: 20", name: "Day"},
-  {time: "5: 45", name: "Dusk"}
+  {time: "4:30", name: "Dawn"},
+  {time: "1:20", name: "Day"},
+  {time: "5:45", name: "Dusk"}
 ]

@@ -58,13 +58,14 @@ class FlightList {
         }
     };
 
-    find(planeName, destination, leavingAt, leavingTime) {
+    find(planeName,departure, destination, leavingAt, leavingTime) {
         let current = this.head; // Start traversing from the head
 
         while (current) {
             // Check if the current flight matches the criteria
             if (
                 current.planeName === planeName &&
+                current.departure === departure &&
                 current.destination === destination &&
                 current.leavingAt === leavingAt &&
                 current.leavingTime === leavingTime
@@ -93,11 +94,11 @@ class FlightList {
         newFlight.businessSeats = this.#generateSeats(planeInfo.businessSeats);
         newFlight.firstClassSeats = this.#generateSeats(planeInfo.firstClassSeats);
         newFlight.destination = destination;
-        newFlight.departure = "Ghana, Accra"
+        newFlight.departure = departure;
         newFlight.leavingAt = leavingAt;
-        newFlight.arrivingAt = this.#generateArrivalDate();
+        newFlight.arrivingAt = this.#generateArrivalDate(leavingAt);
         newFlight.leavingTime = leavingTime;
-        newFlight.arrivingTime = this.#generateArrivalTime();
+        newFlight.arrivingTime = this.#generateArrivalTime(leavingTime, leavingAt === newFlight.arrivingAt);
         newFlight.flightCode = this.#generateFlightCode();
         newFlight.economyPrice = this.#generatePrice("econ");
         newFlight.businessPrice = this.#generatePrice("bus");
@@ -105,21 +106,20 @@ class FlightList {
         return newFlight; // Return a newly created flight node
     };
 
-    #generateArrivalDate() {
-        let minArrivalDate = new Date(this.leavingAt);
-        let maxArrivalDate = new Date(this.leavingAt);
-        maxArrivalDate.setDate(maxArrivalDate.getDate() + 6); // Adding 6 days
+    #generateArrivalDate(leavingAt) {
+        let minArrivalDate = new Date(leavingAt);
+        let maxArrivalDate = new Date(leavingAt);
+        maxArrivalDate.setDate(maxArrivalDate.getDate() + 3); // Adding 3 days
         let arrivalDate = new Date(
             minArrivalDate.getTime() + Math.random() * (maxArrivalDate.getTime() - minArrivalDate.getTime())
         );
         return arrivalDate;
     }
 
-    #generateArrivalTime() {
+    #generateArrivalTime(leavingTime, isSameDay) {
         let arrivalTime;
-        if (this.arrivingAt === this.departure) {
-            let leavingHour = parseInt(this.leavingTime.split(':')[0]);
-            let leavingMinute = parseInt(this.leavingTime.split(':')[1]);
+        if (isSameDay) {
+            let leavingHour = parseInt(leavingTime.split(':')[0]);
             let maxArrivalHour = Math.min(23, leavingHour + 6); // Limiting to 23 hours for simplicity
             let arrivalHour = leavingHour + Math.floor(Math.random() * (maxArrivalHour - leavingHour + 1));
             let arrivalMinute = Math.floor(Math.random() * 60);
@@ -150,11 +150,11 @@ class FlightList {
                 break;
             case 'bus':
                 // Generate random price for business class greater than economy price
-                price = Math.floor(Math.random() * 200) + this.economyPrice + 100; // Example: random price between (economyPrice + 100) and (economyPrice + 299)
+                price = Math.floor(Math.random() * 200) + 300; // Example: random price between (economyPrice + 100) and (economyPrice + 299)
                 break;
             case 'first':
                 // Generate random price for first class greater than economy and business prices
-                price = Math.floor(Math.random() * 200) + this.businessPrice + 200; // Example: random price between (businessPrice + 200) and (businessPrice + 399)
+                price = Math.floor(Math.random() * 200) + 500; // Example: random price between (businessPrice + 200) and (businessPrice + 399)
                 break;
             default:
                 price = null; // Invalid seat type
@@ -164,10 +164,9 @@ class FlightList {
 
     #generateSeats({total, columns, rows}){
         let seats = [];
+        let activeColumn = 0;
+        let activeRow = 0;
         for (let _i = 0; _i < total; _i++) {
-            let activeColumn = 0;
-            let activeRow = 0;
-            
             seats.push(columns[activeColumn] + rows[activeRow])
             activeColumn = (activeColumn + 1) % columns.length;
             if(activeColumn === 0) {
