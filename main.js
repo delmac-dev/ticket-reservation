@@ -75,6 +75,7 @@ function saveData(data, name) {
 
 const airlines = [
     {
-        name: "Ghana Airways"
+        name: "Ghana Airways",
+        
     }
 ]
