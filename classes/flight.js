@@ -89,9 +89,9 @@ class FlightList {
         let newFlight = new Flight();
         newFlight.planeName = planeName;
         newFlight.capacity = planeInfo.capacity;
-        newFlight.economySeats = planeInfo.economySeats;
-        newFlight.businessSeats = planeInfo.businessSeats;
-        newFlight.firstClassSeats = planeInfo.firstClassSeats;
+        newFlight.economySeats = this.#generateSeats(planeInfo.economySeats);
+        newFlight.businessSeats = this.#generateSeats(planeInfo.businessSeats);
+        newFlight.firstClassSeats = this.#generateSeats(planeInfo.firstClassSeats);
         newFlight.destination = destination;
         newFlight.departure = "Ghana, Accra"
         newFlight.leavingAt = leavingAt;
@@ -160,6 +160,22 @@ class FlightList {
                 price = null; // Invalid seat type
         }
         return price;
+    }
+
+    #generateSeats({total, columns, rows}){
+        let seats = [];
+        for (let _i = 0; _i < total; _i++) {
+            let activeColumn = 0;
+            let activeRow = 0;
+            
+            seats.push(columns[activeColumn] + rows[activeRow])
+            activeColumn = (activeColumn + 1) % columns.length;
+            if(activeColumn === 0) {
+                activeRow += 1;
+            }
+        };
+
+        return seats;
     }
 }
 

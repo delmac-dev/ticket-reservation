@@ -83,9 +83,3 @@ function saveData(data, name) {
     // Save the JSON string to local storage with the provided name
     localStorage.setItem(name, jsonData);
 }
-
-const airlines = [
-    {
-        name: "Ghana Airways",
-    }
-]
