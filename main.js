@@ -6,6 +6,8 @@ import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
 import AirlineList from "./classes/airline";
 import flatpickr from "flatpickr";
+import { airlines } from "./constants";
+import ReservationSystem from "./classes/system";
 
 const dateConfig = {
   altInput: true,
@@ -18,11 +20,17 @@ const dateConfig = {
 $(function() {
     // use flatpickr for selecting date
     flatpickr("#date", dateConfig);
+
     // initialise airline data
-    AirlineList.populate(getData("airline"));
+    AirlineList.populate(airlines);
 
     // initialise db
     Database.init(getData("flights"),getData("reservations"),getData("tickets"));
+
+    // initialise system
+    const app = new ReservationSystem();
+
+    
 
     // on page load set app content to home;
     homePage($("#app"));

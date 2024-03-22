@@ -78,7 +78,7 @@ header h1{
   width: 240px;
 }
 
-#controls .control input{
+#controls .control input, #controls .control select{
   outline: none;
   border: none;
   width: 100%;

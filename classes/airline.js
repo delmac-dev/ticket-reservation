@@ -6,9 +6,12 @@ class AirlineList {
     }
 
     static get(name){
+        let foundPlane = null;
         AirlineList.items.forEach(plane => {
-            if(plane.name === name) return plane;
+            if(plane.name === name) foundPlane  = plane;
         });
+
+        return foundPlane;
     }
 
     static getAll() {

@@ -16,19 +16,40 @@
         </div>
         <div id="controls">
           <div class="control">
-            <input type="text" name="departure" id="departure" placeholder="Select departure">
+            <select class="select" data-role="select" name="departure" id="departure">
+              <option value="" disabled selected>Departure</option>
+              <option value="Ghana, Kotoka Airport">Ghana, Kotoka Airport</option>
+            </select>
           </div>
           <div class="control">
-            <input type="text" name="destination" id="destination" placeholder="Select destination">
+            <select class="select" data-role="select" name="destination" id="destination">
+              <option value="" disabled selected>Destination</option>
+              <option value="apple">Apple</option>
+              <option value="banana">Banana</option>
+              <option value="orange">Orange</option>
+              <option value="grape">Grape</option>
+            </select>
           </div>
           <div class="control">
-            <input type="text" name="date" id="airline" placeholder="Select airline">
+            <select class="select" data-role="select" name="date" id="airline" placeholder="Select airline">
+              <option value="" disabled selected>Airline</option>
+              <option value="apple">Apple</option>
+              <option value="banana">Banana</option>
+              <option value="orange">Orange</option>
+              <option value="grape">Grape</option>
+            </select>
           </div>
           <div class="control">
-            <input type="text" name="time" id="date" placeholder="Select departure date">
+            <input type="text" name="time" id="date" placeholder="Departure Date">
           </div>
           <div class="control">
-            <input type="text" name="time" id="time" placeholder="Select departure time">
+            <select class="select" data-role="select" name="time" id="time" placeholder="Select departure time">
+              <option value="" disabled selected>Departure Time</option>
+              <option value="apple">Apple</option>
+              <option value="banana">Banana</option>
+              <option value="orange">Orange</option>
+              <option value="grape">Grape</option>
+            </select>
           </div>
           <div class="control">
             <button type="button" name="confirm-flight" id="confirm-flight">Confirm flight</button>
