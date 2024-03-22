@@ -6,6 +6,7 @@ import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
 
 $(function() {
+    // initialise airline data
     // initialise db
     Database.init(getData("flights"),getData("reservations"),getData("tickets"));
 

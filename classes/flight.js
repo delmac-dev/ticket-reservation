@@ -1,3 +1,5 @@
+import AirlineList from "./airline";
+
 class Flight {
     constructor() {
         this.flightCode = ""
@@ -83,7 +85,7 @@ class FlightList {
             current = current.next; // Move to the next flight
         }
 
-        let planeInfo = PlaneList.get(planeName);
+        let planeInfo = AirlineList.get(planeName);
         let newFlight = new Flight();
         newFlight.planeName = planeName;
         newFlight.capacity = planeInfo.capacity;
