@@ -47,3 +47,6 @@ class Queue {
         return str.trim(); // Return a string representation of the elements in the queue
     }
 }
+
+
+export default Queue;

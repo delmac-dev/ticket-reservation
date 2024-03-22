@@ -87,3 +87,5 @@ class ReservationList {
         return reservations;
     }
 }
+
+export {Reservation, ReservationList};

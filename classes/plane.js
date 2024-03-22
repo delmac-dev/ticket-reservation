@@ -15,3 +15,5 @@ class PlaneList {
         return PlaneList.items
     }
 }
+
+export default PlaneList;

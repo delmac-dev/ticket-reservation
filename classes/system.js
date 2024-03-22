@@ -1,3 +1,8 @@
+import Queue from "./queue";
+import { TicketList } from "./ticket";
+import { ReservationList } from "./reservation";
+import Database from "./database";
+
 class ReservationSystem {
     constructor() {
         this.planeName = "";
@@ -108,3 +113,5 @@ class ReservationSystem {
     }
 
 }
+
+export default ReservationSystem;

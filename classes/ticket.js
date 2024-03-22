@@ -102,3 +102,5 @@ class TicketList {
         return tickets;
     }
 }
+
+export {Ticket, TicketList};

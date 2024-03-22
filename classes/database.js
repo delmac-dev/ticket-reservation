@@ -1,3 +1,7 @@
+import { FlightList } from "./flight";
+import { ReservationList } from "./reservation";
+import { TicketList } from "./ticket";
+
 class Database {
         static _flights = new FlightList();
         static _reservations = new ReservationList();
@@ -9,3 +13,5 @@ class Database {
         Database._tickets.populate(tickets);
     }
 }
+
+export default Database;

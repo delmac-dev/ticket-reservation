@@ -160,3 +160,5 @@ class FlightList {
         return price;
     }
 }
+
+export {Flight, FlightList};
