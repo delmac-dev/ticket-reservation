@@ -116,7 +116,9 @@ function handleBookFlight(element) {
     if(!departure|| !destination || !airline || !departureDate || !departureTime) return;
     
     app.init(airline, departure, destination, departureDate, departureTime);
-    
+
+    console.log(app.businessPrice);
+
     $('[data-page="reserve"]').trigger("click");
   })
 }
