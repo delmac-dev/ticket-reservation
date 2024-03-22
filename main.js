@@ -60,4 +60,4 @@ function getData(name) {
         // If data doesn't exist, return null or handle the situation according to your needs
         return [];
     }
-}
+};

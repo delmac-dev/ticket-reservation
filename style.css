@@ -38,15 +38,13 @@ body{
 }
 
 #top{
-  position: sticky;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  padding-top: 24px;
+  padding: 24px 0 32px 0;
   background-color: var(--bg-secondary);
 }
 
-header, main {
+header, nav, main {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -99,9 +97,21 @@ header h1{
   color: var(--fg-main);
 }
 
-#navigation {
-  margin: 2em 0 0 0;
+#middle{
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: var(--bg-secondary);
+}
+
+nav{
   display: flex;
+  justify-content: center;
+}
+
+#navigation {
+  display: flex;
+  margin: 0 auto;
 }
 
 #navigation button{
@@ -118,7 +128,7 @@ header h1{
 }
 
 #down{
-  
+  height: 100vh;
 }
 
 footer{
