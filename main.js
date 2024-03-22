@@ -7,7 +7,7 @@ import { showPage } from "./pages/show";
 
 $(function() {
     // initialise db
-    Database.init([], [], []);
+    Database.init(getData("flights"),getData("reservations"),getData("tickets"));
 
     // on page load set app content to home;
     homePage($("#app"));
