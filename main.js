@@ -18,7 +18,7 @@ function togglePages(btns) {
           case 'check':
             checkPage();
             break;
-          case 'view':
+          case 'show':
             viewPage();
             break;
           default:
