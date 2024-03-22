@@ -120,7 +120,7 @@ nav{
 #navigation button{
   padding: 10px 14px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   font-family: "Poppins";
   background-color: transparent;
 }
@@ -132,6 +132,11 @@ nav{
 
 #down{
   height: 100vh;
+};
+
+#app{
+  padding: 24px;
+  font-size: 48px;
 }
 
 footer{
