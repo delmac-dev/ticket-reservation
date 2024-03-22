@@ -1,5 +1,5 @@
 :root {
-  --bg-main: #dbeafe;
+  --bg-main: #fff;
   --bg-card: #eff6ff;
   --fg-main: #172554;
   --fg-secondary: #242424;
@@ -58,9 +58,10 @@ header h1{
   margin: 1em 0;
   padding: 2em 0;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 12px;
+  padding: 0 12px;
 }
 
 #controls .control{
