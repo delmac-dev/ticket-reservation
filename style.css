@@ -85,9 +85,9 @@ header h1{
   font-size: 16px;
   height: 54px;
   padding: 0 14px;
-  background-color: var(--bg-card);
+  background-color: var(--bg-main);
   color: var(--fg-main);
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 1px;
 }
 

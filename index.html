@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" sizes="1024x1024" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
     <title>Airline Ticket Reservation System</title>
@@ -17,26 +17,17 @@
         <div id="controls">
           <div class="control">
             <select class="select" data-role="select" name="departure" id="departure">
-              <option value="" disabled selected>Departure</option>
-              <option value="Ghana, Kotoka Airport">Ghana, Kotoka Airport</option>
+              <option value="" disabled selected hidden>Departure</option>
             </select>
           </div>
           <div class="control">
             <select class="select" data-role="select" name="destination" id="destination">
-              <option value="" disabled selected>Destination</option>
-              <option value="apple">Apple</option>
-              <option value="banana">Banana</option>
-              <option value="orange">Orange</option>
-              <option value="grape">Grape</option>
+              <option value="" disabled selected hidden>Destination</option>
             </select>
           </div>
           <div class="control">
             <select class="select" data-role="select" name="date" id="airline" placeholder="Select airline">
-              <option value="" disabled selected>Airline</option>
-              <option value="apple">Apple</option>
-              <option value="banana">Banana</option>
-              <option value="orange">Orange</option>
-              <option value="grape">Grape</option>
+              <option value="" disabled selected hidden>Airline</option>
             </select>
           </div>
           <div class="control">
@@ -44,15 +35,11 @@
           </div>
           <div class="control">
             <select class="select" data-role="select" name="time" id="time" placeholder="Select departure time">
-              <option value="" disabled selected>Departure Time</option>
-              <option value="apple">Apple</option>
-              <option value="banana">Banana</option>
-              <option value="orange">Orange</option>
-              <option value="grape">Grape</option>
+              <option value="" disabled selected hidden>Departure Time</option>
             </select>
           </div>
           <div class="control">
-            <button type="button" name="confirm-flight" id="confirm-flight">Confirm flight</button>
+            <button type="button" name="confirm-flight" id="confirm-flight">Book Flight</button>
           </div>
         </div>
       </header>

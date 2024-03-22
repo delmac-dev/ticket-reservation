@@ -6,7 +6,7 @@ import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
 import AirlineList from "./classes/airline";
 import flatpickr from "flatpickr";
-import { airlines } from "./constants";
+import { airlines, availableDeparturtimes, departureLocations, destinationLocations } from "./constants";
 import ReservationSystem from "./classes/system";
 
 const dateConfig = {
@@ -21,6 +21,15 @@ $(function() {
     // use flatpickr for selecting date
     flatpickr("#date", dateConfig);
 
+    // provide options for neccesary options for select tags
+    provideOptions($("#airline"), airlines, "name", "name");
+    provideOptions($("#departure"), departureLocations, "name", "airport");
+    provideOptions($("#destination"), destinationLocations, "name", "airport");
+    provideOptions($("#time"), availableDeparturtimes, "name", "time");
+
+    // handle flight booked
+    handleBookFlight($("#confirm-flight"));
+    
     // initialise airline data
     AirlineList.populate(airlines);
 
@@ -29,8 +38,6 @@ $(function() {
 
     // initialise system
     const app = new ReservationSystem();
-
-    
 
     // on page load set app content to home;
     homePage($("#app"));
@@ -84,10 +91,29 @@ function getData(name) {
     }
 }
 
-function saveData(data, name) {
+function saveData(name, data) {
     // Convert the data to a JSON string
     const jsonData = JSON.stringify(data);
 
     // Save the JSON string to local storage with the provided name
     localStorage.setItem(name, jsonData);
+}
+
+function provideOptions(element, data, name, value) {
+  data.forEach(item => element.append(`<option value="${item[value]}">${item[name]}</option>`));
+}
+
+function handleBookFlight(element) {
+
+  element.on('click', function(){
+    let departure = $("#departure").val();
+    let destination = $("#destination").val();
+    let airline = $("#airline").val();
+    let departureDate = $("#date").val();
+    let departureTime = $("#time").val();
+
+    if(!departure|| !destination || !airline || !departureDate || !departureTime) return;
+
+    $('[data-page="reserve"]').trigger("click");
+  })
 }
