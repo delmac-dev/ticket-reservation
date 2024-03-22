@@ -5,8 +5,19 @@ import reservePage from "./pages/reserve";
 import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
 import AirlineList from "./classes/airline";
+import flatpickr from "flatpickr";
+
+const dateConfig = {
+  altInput: true,
+  altFormat: "F j, Y",
+  dateFormat: "Y-m-d",
+  minDate: "today",
+  maxDate: new Date().fp_incr(14),
+}
 
 $(function() {
+    // use flatpickr for selecting date
+    flatpickr("#date", dateConfig);
     // initialise airline data
     AirlineList.populate(getData("airline"));
 
@@ -76,7 +87,5 @@ function saveData(data, name) {
 const airlines = [
     {
         name: "Ghana Airways",
-        h
-        
     }
 ]

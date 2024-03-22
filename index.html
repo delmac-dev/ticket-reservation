@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
     <title>Airline Ticket Reservation System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   </head>
   <body>
     <section id="top">
@@ -15,20 +16,22 @@
         </div>
         <div id="controls">
           <div class="control">
-            <label for="plane">Plane</label>
-            <input type="text" name="phane" id="plan">
+            <input type="text" name="departure" id="departure" placeholder="Select departure">
           </div>
           <div class="control">
-            <label for="destination">Destination</label>
-            <input type="text" name="destination" id="destination">
+            <input type="text" name="destination" id="destination" placeholder="Select destination">
           </div>
           <div class="control">
-            <label for="date">Departure Date</label>
-            <input type="text" name="date" id="date">
+            <input type="text" name="date" id="airline" placeholder="Select airline">
           </div>
           <div class="control">
-            <label for="time">Departure Time</label>
-            <input type="text" name="time" id="time">
+            <input type="text" name="time" id="date" placeholder="Select departure date">
+          </div>
+          <div class="control">
+            <input type="text" name="time" id="time" placeholder="Select departure time">
+          </div>
+          <div class="control">
+            <button type="button" name="confirm-flight" id="confirm-flight">Confirm flight</button>
           </div>
         </div>
       </header>
