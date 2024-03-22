@@ -4,7 +4,8 @@
   --bg-card: #EFF6FF;
   --fg-main: #172554;
   --fg-secondary: #242424;
-  --text-secondary: #EFF6FF;
+  --text-secondary: #F5F5F4;
+  --text-main: #374151;
 
   color-scheme: light dark;
   font-synthesis: none;
@@ -15,11 +16,6 @@
 
 button {
   cursor: pointer;
-  padding: 0.8em 1.2em;
-  font-size: 14px;
-  color: var(--fg-main);
-  background-color: var(--bg-card);
-  border-radius: 2px;
   outline: none;
   border: none
 }
@@ -33,13 +29,16 @@ button {
 body{
   width: 100%;
   position: relative;
-  font-family: "Inter", sans-serif;
+  font-family: "Poppins","Inter", sans-serif;
   min-height: 100vh;
   color: var(--fg-main);
   background-color: var(--bg-main);
 }
 
 #top{
+  position: sticky;
+  top: 0;
+  left: 0;
   width: 100%;
   padding-top: 24px;
   background-color: var(--bg-secondary);
@@ -51,6 +50,13 @@ header, main {
   margin: 0 auto;
 }
 
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
 header h1{
   font-size: 2.5em;
   text-align: center;
@@ -58,13 +64,12 @@ header h1{
 }
 
 #controls{
-  width: 100%;
   margin: 1em 0;
   padding: 2em 0;
   display: flex;
   justify-content: start;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   padding: 0 12px;
 }
 
@@ -76,9 +81,10 @@ header h1{
 
 #controls .control label{
   width: 100%;
-  padding: 8px 6px;
+  padding: .5em 0;
   font-size: 16px;
   font-weight: 400;
+  color: var(--text-secondary);
 }
 
 #controls .control input{
@@ -86,40 +92,50 @@ header h1{
   border: none;
   width: 100%;
   font-size: 16px;
-  padding: 8px 6px;
+  height: 44px;
   background-color: var(--bg-card);
   color: var(--fg-main);
 }
 
-#content{
-  width: 100%;
-  margin: 1em 0;
-}
-
-#content-nav{
-  width: 100%;
-  height: 47px;
+#navigation {
+  margin: 2em 0 0 0;
   display: flex;
-  justify-content: start;
-  align-items: center;
-  gap: 12px;
-  padding: 0 12px;
 }
 
-#content-body {
-  width: 100%;
-  padding: 10px;
+#navigation button{
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Poppins";
+  background-color: transparent;
+}
+
+#navigation button[data-active="true"]{
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+#down{
+  
 }
 
 footer{
-  position: absolute;
+  position: fixed;
   width: 100%;
+  height: 56px;
+  background-color: var(--bg-main);
   left: 0;
   bottom:0;
-  margin: 1em 0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+footer button {
+  background-color: transparent;
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 @media (prefers-color-scheme: light) {

@@ -12,7 +12,7 @@ class PlaneList {
     }
 
     static getAll() {
-        return PlaneList.items
+        return PlaneList.items;
     }
 }
 
