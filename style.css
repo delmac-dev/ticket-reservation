@@ -1,8 +1,10 @@
 :root {
-  --bg-main: #fff;
-  --bg-card: #eff6ff;
+  --bg-main: #ffffff;
+  --bg-secondary: #3B82F6;
+  --bg-card: #EFF6FF;
   --fg-main: #172554;
   --fg-secondary: #242424;
+  --text-secondary: #EFF6FF;
 
   color-scheme: light dark;
   font-synthesis: none;
@@ -32,25 +34,27 @@ body{
   width: 100%;
   position: relative;
   font-family: "Inter", sans-serif;
-  line-height: 1.5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
   color: var(--fg-main);
   background-color: var(--bg-main);
 }
 
-main{
-  position: relative;
+#top{
+  width: 100%;
+  padding-top: 24px;
+  background-color: var(--bg-secondary);
+}
+
+header, main {
   width: 100%;
   max-width: 1200px;
-  min-height: 100vh;
+  margin: 0 auto;
 }
 
 header h1{
-  margin: 0.5em 0;
   font-size: 2.5em;
   text-align: center;
+  color: var(--text-secondary);
 }
 
 #controls{
