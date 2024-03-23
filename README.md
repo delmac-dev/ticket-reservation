@@ -11,7 +11,7 @@ This is a vanilla js reservation system built with vite and styled with css
 Clone the project
 
 ```bash
-  git clone git@github.com:delmac-dev/nike-landing-page.git
+  git clone git@github.com:delmac-dev/ticket-reservation.git
 ```
 
 Go to the project directory
@@ -43,4 +43,4 @@ To build this project run
 
 ## Screenshots
 
-![nike landing page]()
+![ticket reservation system]()
