@@ -7,6 +7,7 @@ class ReservationSystem {
     constructor() {
         this.flightCode = null;
         this.airline = "";
+        this.model="";
         this.departure = "";
         this.destination = "";
         this.leavingAt = "";
@@ -30,6 +31,7 @@ class ReservationSystem {
         let activeFlight = Database._flights.find(airline,departure, destination, leavingAt, leavingTime);
         this.flightCode = activeFlight.flightCode;
         this.airline = activeFlight.airline;
+        this.model = activeFlight.model;
         this.departure = activeFlight.departure;
         this.destination = activeFlight.destination;
         this.leavingAt = activeFlight.leavingAt;
@@ -55,6 +57,7 @@ class ReservationSystem {
         let flight = {
             flightCode: this.flightCode,
             airline: this.airline,
+            model: this.model,
             departure: this.departure,
             destination: this.destination,
             leavingAt: this.leavingAt,

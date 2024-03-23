@@ -32,7 +32,7 @@ $(function() {
     flatpickr("#date", dateConfig);
 
     // provide options for neccesary options for select tags
-    provideOptions($("#airline"), airlines, "name", "name");
+    provideOptions($("#airline"), airlines, "airline", "airline");
     provideOptions($("#departure"), departureLocations, "name", "airport");
     provideOptions($("#destination"), destinationLocations, "name", "airport");
     provideOptions($("#time"), availableDeparturtimes, "name", "time");
