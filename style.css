@@ -45,7 +45,7 @@ body{
   background-color: var(--bg-secondary);
 }
 
-header, nav, main {
+header, nav, main{
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -130,13 +130,13 @@ nav{
   color: var(--text-main);
 }
 
-#down{
-  height: 100vh;
-};
-
 #app{
   padding: 24px;
-  font-size: 48px;
+  position: relative;
+}
+
+.app_section{
+  width: 100%;
 }
 
 footer{

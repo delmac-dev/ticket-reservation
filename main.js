@@ -1,3 +1,4 @@
+import "./style.css";
 import $ from "jquery";
 import Database from "./classes/database";
 import homePage from "./pages/home";
