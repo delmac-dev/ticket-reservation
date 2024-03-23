@@ -17,23 +17,23 @@ export function showPage(element) {
                 <div class="app_content__flight">
                     <div class="app_content__detail">
                         <h5><i class="fa-solid fa-plane-departure"></i> Departure</h5>
-                        <p>Accra, Ghana</p>
+                        <p>${app.departure}</p>
                     </div>
                     <div class="app_content__detail">
                         <h5><i class="fa-solid fa-plane-arrival"></i> Destination</h5>
-                        <p>Lagos, Nigeria</p>
+                        <p>${app.destination}</p>
                     </div>
                     <div class="app_content__detail">
                         <h5><i class="fa-solid fa-calendar"></i> Date</h5>
-                        <p>Thurs, 13 January</p>
+                        <p>${app.leavingAt}</p>
                     </div>
                     <div class="app_content__detail">
                         <h5><i class="fa-solid fa-plane"></i> Airline</h5>
-                        <p>Ghana Airways</p>
+                        <p>${app.airline}</p>
                     </div>
                     <div class="app_content__detail">
                         <h5><i class="fa-solid fa-couch"></i> Available Seats</h5>
-                        <p>124</p>
+                        <p>${app.capacity}</p>
                     </div>
                 </div>
             </div>
