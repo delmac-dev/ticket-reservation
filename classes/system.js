@@ -50,10 +50,10 @@ class ReservationSystem {
     }
     
     flush(){
-        if(this.flightcode === "") return;
+        if(this.flightCode === "") return;
         // save active flight data to global flights list
         let flight = {
-            flightCode: this.flightcode,
+            flightCode: this.flightCode,
             planeName: this.planeName,
             departure: this.departure,
             destination: this.destination,
