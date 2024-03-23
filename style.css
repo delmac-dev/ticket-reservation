@@ -309,6 +309,26 @@ td button.print{
   background-color: var(--bg-tertiary);
 }
 
+.error_container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14px;
+}
+
+.error_container img{
+  width: 100%;
+  max-width: 320px;
+}
+
+.error_container .error_text{
+  font-size: 20px;
+  font-weight: 500;
+}
+
 footer{
   position: absolute;
   width: 100%;

@@ -25,7 +25,7 @@ const dateConfig = {
   Database.init(getData("flights"),getData("reservations"),getData("tickets"));
 
   // initialise system
-  const app = new ReservationSystem();
+  export const app = new ReservationSystem();
 
 $(function() {
     // use flatpickr for selecting date
