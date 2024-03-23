@@ -1,4 +1,5 @@
 import AirlineList from "./airline";
+import { departureLocations, destinationLocations } from "../constants";
 
 class Flight {
     constructor() {
@@ -6,7 +7,11 @@ class Flight {
         this.airline= "";
         this.model= "";
         this.departure= "";
+        this.departureAirport="";
+        this.departureIATA=""
         this.destination= "";
+        this.destinationAirport="";
+        this.destinationIATA=""
         this.leavingAt= "";
         this.arrivingAt= "";
         this.leavingTime= "";
@@ -39,7 +44,11 @@ class FlightList {
         newFlight.airline = flight.airline;
         newFlight.model = flight.model;
         newFlight.departure = flight.departure;
+        newFlight.departureAirport = flight.departureAirport;
+        newFlight.departureIATA = flight.departureIATA;
         newFlight.destination = flight.destination;
+        newFlight.destinationAirport = flight.destinationAirport;
+        newFlight.destinationIATA = flight.destinationIATA;
         newFlight.leavingAt = flight.leavingAt;
         newFlight.arrivingAt = flight.arrivingAt;
         newFlight.leavingTime = flight.leavingTime;
@@ -87,6 +96,11 @@ class FlightList {
             }
             current = current.next; // Move to the next flight
         }
+        // get details of departureLocation;
+        let departureObj = this.#findObject(departureLocations, "location", departure);
+        
+        // get details of destinationLocation;
+        let destinationObj = this.#findObject(destinationLocations, "location", destination);
 
         let planeInfo = AirlineList.get(airline);
         let newFlight = new Flight();
@@ -97,7 +111,11 @@ class FlightList {
         newFlight.businessSeats = this.#generateSeats(planeInfo.businessSeats);
         newFlight.firstClassSeats = this.#generateSeats(planeInfo.firstClassSeats);
         newFlight.destination = destination;
+        newFlight.destinationAirport = destinationObj.airport;
+        newFlight.destinationIATA = destinationObj.IATA;
         newFlight.departure = departure;
+        newFlight.departureAirport = departureObj.airport;
+        newFlight.departureIATA = departureObj.IATA;
         newFlight.leavingAt = leavingAt;
         newFlight.arrivingAt = this.#generateArrivalDate(leavingAt);
         newFlight.leavingTime = leavingTime;
@@ -189,6 +207,17 @@ class FlightList {
         };
 
         return seats;
+    }
+
+    #findObject(objects, key, value) {
+        for (let obj of objects) {
+            if (obj.hasOwnProperty(key)) {
+                if (obj[key] === value) {
+                    return obj;
+                }
+            }
+        }
+        return null;
     }
 }
 

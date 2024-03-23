@@ -22,20 +22,20 @@ export const airlines = [
 ]
 
 export const departureLocations = [
-  { name: 'GHA-ACC, Accra', airport: 'Kotoka International Airport'},
-  { name: 'GHA-KMS, Kumasi', airport: 'Kumasi Airport'},
+  { location: 'Accra, Ghana', airport: 'Kotoka International Airport', IATA: 'GHA-ACC'},
+  { location: 'Kumasi, Ghana', airport: 'Kumasi Airport', IATA: 'GHA-KMS'},
 ]
 
 export const destinationLocations = [
-  { name: 'GHA-TML, Tamale', airport: 'Tamale International Airport'},
-  { name: 'GHA-TKD, Takoradi', airport: 'Takoradi Airport'},
-  { name: 'CIV-ABJ, Abidjan', airport: 'Félix-Houphouët-Boigny International Airport'},
-  { name: 'BFA-DIP, Diapaga', airport: 'Diapaga Airport'},
-  { name: 'TOG-LFW, Lomé', airport: 'Lomé-Tokoin Airport'},
+  { location: 'Tamale, Ghana', airport: 'Tamale International Airport', IATA: 'GHA-TML'},
+  { location: 'Takoradi, Ghana', airport: 'Takoradi Airport', IATA: 'GHA-TKD'},
+  { location: 'Abidjan, Côte d\'Ivoire', airport: 'Félix-Houphouët-Boigny International Airport', IATA: 'CIV-ABJ'},
+  { location: 'Diapaga, Burkina Faso', airport: 'Diapaga Airport', IATA: 'BFA-DIP'},
+  { location: 'Lomé, Togo', airport: 'Lomé-Tokoin Airport', IATA: 'TOG-LFW'},
 ]
 
 export const availableDeparturtimes = [
   {time: "4:30", name: "Dawn"},
-  {time: "1:20", name: "Day"},
-  {time: "5:45", name: "Dusk"}
+  {time: "13:20", name: "Day"},
+  {time: "17:45", name: "Dusk"}
 ]

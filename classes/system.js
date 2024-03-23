@@ -9,7 +9,11 @@ class ReservationSystem {
         this.airline = "";
         this.model="";
         this.departure = "";
+        this.departureAirport="";
+        this.departureIATA=""
         this.destination = "";
+        this.destinationAirport="";
+        this.destinationIATA=""
         this.leavingAt = "";
         this.arrivingAt = "";
         this.leavingTime = "";
@@ -33,7 +37,11 @@ class ReservationSystem {
         this.airline = activeFlight.airline;
         this.model = activeFlight.model;
         this.departure = activeFlight.departure;
+        this.departureAirport=activeFlight.departureAirport;
+        this.departureIATA=activeFlight.departureIATA;
         this.destination = activeFlight.destination;
+        this.destinationAirport=activeFlight.destinationAirport;
+        this.destinationIATA=activeFlight.destinationIATA;
         this.leavingAt = activeFlight.leavingAt;
         this.arrivingAt = activeFlight.arrivingAt;
         this.leavingTime = activeFlight.leavingTime;
@@ -59,7 +67,11 @@ class ReservationSystem {
             airline: this.airline,
             model: this.model,
             departure: this.departure,
+            departureAirport:this.departureAirport,
+            departureIATA:this.departureIATA,
             destination: this.destination,
+            destinationairport: this.destinationAirport,
+            destinationIATA: this.destinationIATA,
             leavingAt: this.leavingAt,
             arrivingAt: this.arrivingAt,
             leavingTime: this.leavingTime,

@@ -33,8 +33,8 @@ $(function() {
 
     // provide options for neccesary options for select tags
     provideOptions($("#airline"), airlines, "airline", "airline");
-    provideOptions($("#departure"), departureLocations, "name", "airport");
-    provideOptions($("#destination"), destinationLocations, "name", "airport");
+    provideOptions($("#departure"), departureLocations, "location", "location");
+    provideOptions($("#destination"), destinationLocations, "location", "location");
     provideOptions($("#time"), availableDeparturtimes, "name", "time");
 
     // handle flight booked
@@ -113,7 +113,6 @@ function handleBookFlight(element) {
     let airline = $("#airline").val();
     let departureDate = $("#date").val();
     let departureTime = $("#time").val();
-
     
     if(!departure|| !destination || !airline || !departureDate || !departureTime) return;
     
