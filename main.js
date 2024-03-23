@@ -18,18 +18,37 @@ const dateConfig = {
   maxDate: new Date().fp_incr(14),
 }
 
-  // initialise airline data
-  AirlineList.populate(airlines);
+export const reserveForm = {
+  passengers: [
+    {
+      lastname: "",
+      othernames: "",
+      seatClass: "",
+      age: "",
+      gender: ""
+    }
+  ],
+  contact: {
 
-  // initialise db
-  Database.init(getData("flights"),getData("reservations"),getData("tickets"));
+  },
+  payment: {
 
-  // initialise system
-  export const app = new ReservationSystem();
+  }
+}
+
+// initialise airline data
+AirlineList.populate(airlines);
+
+// initialise db
+Database.init(getData("flights"),getData("reservations"),getData("tickets"));
+
+// initialise system
+export const app = new ReservationSystem();
 
 $(function() {
     // use flatpickr for selecting date
     flatpickr("#date", dateConfig);
+    $(".fr").off()
 
     // provide options for neccesary options for select tags
     provideOptions($("#airline"), airlines, "airline", "airline");
@@ -41,7 +60,7 @@ $(function() {
     handleBookFlight($("#confirm-flight"));
 
     // on page load set app content to home;
-    homePage($("#app"));
+    // homePage($("#app"));
 
     // function to add events to toggle pages
     togglePages($('.nav-btn'));

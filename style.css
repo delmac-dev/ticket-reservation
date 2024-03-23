@@ -1,19 +1,19 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
 
 :root {
-  --bg-main: #ffffff;
-  --bg-secondary: #3B82F6;
-  --bg-tertiary: #1D4ED8;
-  --bg-card: #EFF6FF;
-  --bg-danger: #DC2626;
+  --bg-main: 255, 255, 255;
+  --bg-secondary: 59, 130, 246;
+  --bg-tertiary: 29, 78, 216;
+  --bg-card: 239, 246, 255;
+  --bg-danger: 220, 38, 38;
 
-  --fg-main: #172554;
-  --fg-secondary: #242424;
+  --fg-main: 23, 37, 84;
+  --fg-secondary: 36, 36, 36;
 
-  --text-secondary: #F5F5F4;
-  --text-main: #374151;
+  --text-secondary: 245, 245, 244;
+  --text-main: 55, 65, 81;
 
-  --border-color: #E5E5E5;
+  --border-color: 229, 229, 229;
 
   color-scheme: light dark;
   font-synthesis: none;
@@ -39,15 +39,15 @@ body{
   position: relative;
   font-family: "Poppins","Inter", "Segoe UI",sans-serif;
   min-height: 100vh;
-  color: var(--fg-main);
-  background-color: var(--bg-main);
+  color: rgba(var(--fg-main), 1);;
+  background-color: rgba(var(--bg-main), 1);;
 }
 
 #top{
   position: relative;
   width: 100%;
   padding: 24px 0 32px 0;
-  background-color: var(--bg-secondary);
+  background-color: rgba(var(--bg-secondary), 1);;
 }
 
 header, nav, main{
@@ -66,7 +66,7 @@ header {
 header h1{
   font-size: 2.5em;
   text-align: center;
-  color: var(--text-secondary);
+  color: rgba(var(--bg-card), 1);;
 }
 
 #controls{
@@ -90,8 +90,8 @@ header h1{
   font-size: 16px;
   height: 54px;
   padding: 0 14px;
-  background-color: var(--bg-main);
-  color: var(--fg-main);
+  background-color: rgba(var(--bg-main), 1);;
+  color: rgba(var(--fg-main), 1);;
   font-weight: 400;
   letter-spacing: 1px;
 }
@@ -102,7 +102,7 @@ header h1{
   font-size: 18px;
   letter-spacing: 1px;
   font-family: "Poppins";
-  background-color: var(--bg-tertiary);
+  background-color: rgba(var(--bg-tertiary), 1);;
 }
 
 #middle{
@@ -110,7 +110,7 @@ header h1{
   top: 0;
   left: 0;
   z-index: 10;
-  background-color: var(--bg-secondary);
+  background-color: rgba(var(--bg-secondary), 1);;
 }
 
 nav{
@@ -132,8 +132,8 @@ nav{
 }
 
 #navigation button[data-active="true"]{
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  background-color: rgba(var(--bg-main), 1);;
+  color: rgba(var(--text-main), 1);;
 }
 
 #app{
@@ -152,8 +152,9 @@ nav{
   padding: 0 16px;
   display: flex;
   align-items: center;
-  color: var(--text-main);
-  border-left: 3px solid var(--bg-tertiary);
+  justify-content: space-between;
+  color: rgba(var(--text-main), 1);;
+  border-left: 3px solid rgba(var(--bg-tertiary), 1);;
 }
 
 .app_header h3{
@@ -187,7 +188,7 @@ nav{
   height: 48px;
   background-color: transparent;
   outline: none;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(var(--border-color), 1);;
   padding: 0 16px;
   color: var(--text-main);
   font-size: 16px;
@@ -201,7 +202,7 @@ nav{
 }
 .app_content__passenger{
   width: 100%;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(var(--border-color), 1);;
   padding-bottom: 20px;
 }
 
@@ -217,7 +218,7 @@ nav{
 .app_content__passenger .passenger-header h4{
   font-weight: 600;
   font-size: 24px;
-  color: var(--text-main);
+  color: rgba(var(--text-main), 1);;
   opacity: 0.4;
 }
 
@@ -232,12 +233,39 @@ nav{
 }
 
 .passenger-controls button i{
-  color: var(--bg-secondary);
+  color: rgba(var(--bg-secondary), 1);;
   font-size: 32px;
 }
 
-.passenger-controls .delete-btn i{
-  color: var(--bg-danger);
+.add-passenger, .remove-passenger{
+  height: 40px;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background-color: rgba(var(--bg-tertiary), 0.1);
+  color: rgba(var(--bg-tertiary), 0.8);
+  transition-property: all;
+  transition-duration: 300;
+}
+
+.remove-passenger{
+  background-color: rgba(var(--bg-danger), 0.1);
+  color: rgba(var(--bg-danger), 0.8);
+}
+
+.remove-passenger:not(:disabled):hover{
+  color: rgba(var(--bg-danger), 1);
+  border-color: rgba(var(--bg-danger), 1);
+}
+
+.add-passenger:not(:disabled):hover{
+  color: rgba(var(--bg-tertiary), 1);
+  border-color: rgba(var(--bg-tertiary), 1);
 }
 
 .passenger-form, .app_content__contact, .app_content__payment{
@@ -251,8 +279,8 @@ nav{
   height: 44px;
   font-size: 16px;
   padding: 0 28px;
-  background-color: var(--bg-tertiary);
-  color: var(--text-secondary);
+  background-color: rgba(var(--bg-tertiary), 1);;
+  color: rgba(var(--text-secondary), 1);;
   border-radius: 4px;
 }
 
@@ -264,8 +292,8 @@ nav{
 .app_content__check form button{
   height: 48px;
   font-size: 18px;
-  background-color: var(--bg-tertiary);
-  color: var(--text-secondary);
+  background-color: rgba(var(--bg-tertiary), 1);;
+  color: rgba(var(--bg-secondary), 1);;
   padding: 0 28px;
 }
 
@@ -276,7 +304,7 @@ table {
 
 /* Table header styles */
 th {
-  background-color: var(--bg-secondary);
+  background-color: rgba(var(--bg-secondary), 1);;
   color: var(--text-secondary);
   padding: 16px 10px;
   text-align: left;
@@ -286,7 +314,7 @@ th {
 
 /* Alternating row styles */
 tr:nth-child(even) {
-  background-color: var(--bg-card);
+  background-color: rgba(var(--bg-card), 1);;
 }
 
 /* Cell padding and text styles */
@@ -298,15 +326,15 @@ td button{
   padding: 12px;
   font-size: 16px;
   border-radius: 4px;
-  color: var(--text-secondary);
+  color: rgba(var(--bg-secondary), 1);;
 }
 
 td button.cancel{
-  background-color: var(--bg-danger);
+  background-color: rgba(var(--bg-danger), 1);;
 }
 
 td button.print{
-  background-color: var(--bg-tertiary);
+  background-color: rgba(var(--bg-tertiary), 1);;
 }
 
 .error_container{
@@ -333,7 +361,7 @@ footer{
   position: absolute;
   width: 100%;
   height: 56px;
-  background-color: var(--bg-main);
+  background-color: rgba(var(--bg-main), 1);;
   left: 0;
   bottom:0;
   display: flex;
@@ -343,7 +371,7 @@ footer{
 
 footer button {
   background-color: transparent;
-  color: var(--text-main);
+  color: rgba(var(--text-main), 1);;
   font-size: 16px;
   font-weight: 600;
 }

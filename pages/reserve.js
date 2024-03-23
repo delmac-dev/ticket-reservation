@@ -1,5 +1,6 @@
-import { app } from "../main";
+import { app, reserveForm } from "../main";
 import showError from "./error";
+import ticketForm from "./ticket";
 
 export default function reservePage(element) {
     if(!app.flightCode){
@@ -47,47 +48,12 @@ export default function reservePage(element) {
         <div class="app_section">
             <div class="app_header">
                 <h3>Passengers</h3>
+                <button type="button" class="add-passenger" disabled=${true}>Add Passenger</button>
             </div>
             <div class="app_content">
-                <div class="app_content__passenger">
-                    <div class="passenger-header">
-                        <h4><i class="fa-solid fa-caret-right"></i> 01</h4>
-                        <div class="passenger-controls">
-                            <button type="button" class="add-btn"><i class="fa-solid fa-square-plus"></i></button>
-                            <button type="button" class="delete-btn"><i class="fa-solid fa-square-xmark"></i></button>
-                        </div>
-                    </div>
-                    <div class="passenger-form">
-                        <div class="form-input">
-                            <label for="lastname">Last name</label>
-                            <input type="text" name="lastname" placeholder="Last name">
-                        </div>
-                        <div class="form-input">
-                            <label for="firstname">First name and other names</label>
-                            <input type="text" name="firstname" placeholder="First name and other names">
-                        </div>
-                        <div class="form-input">
-                            <label for="class">Class</label>
-                            <select name="class">
-                                <option value="" disabled selected hidden>Class</option>
-                            </select>
-                        </div>
-                        <div class="form-input">
-                            <label for="age">Age</label>
-                            <select name="age">
-                                <option value="" disabled selected hidden>Age</option>
-                            </select>
-                        </div>
-                        <div class="form-input">
-                            <label for="gender">Gender</label>
-                            <select name="gender">
-                                <option value="" disabled selected hidden>Gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                ${reserveForm.passengers.map(({lastname, othernames, seatClass, age, gender}, index)=>(
+                    ticketForm({index, lastname, othernames, seatClass, age, gender})
+                ))}
             </div>
         </div>
 
