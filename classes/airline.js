@@ -5,10 +5,10 @@ class AirlineList {
         AirlineList.items = planes;
     }
 
-    static get(name){
+    static get(airline){
         let foundPlane = null;
         AirlineList.items.forEach(plane => {
-            if(plane.name === name) foundPlane  = plane;
+            if(plane.airline === airline) foundPlane  = plane;
         });
 
         return foundPlane;

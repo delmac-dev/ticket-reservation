@@ -13,7 +13,7 @@ import ReservationSystem from "./classes/system";
 const dateConfig = {
   altInput: true,
   altFormat: "F j, Y",
-  dateFormat: "Y-m-d",
+  dateFormat: "F j, Y",
   minDate: "today",
   maxDate: new Date().fp_incr(14),
 }
@@ -57,6 +57,7 @@ function togglePages(btns) {
             homePage(body);
             break;
           case 'reserve':
+            console.log(app);
             reservePage(body);
             break;
           case 'check':

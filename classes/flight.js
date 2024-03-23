@@ -3,7 +3,8 @@ import AirlineList from "./airline";
 class Flight {
     constructor() {
         this.flightCode = ""
-        this.planeName = "";
+        this.airline= "";
+        this.model= "";
         this.departure= "";
         this.destination= "";
         this.leavingAt= "";
@@ -35,7 +36,8 @@ class FlightList {
     push(flight){
         let newFlight = new Flight();
         newFlight.flightCode = flight.flightCode;
-        newFlight.planeName = flight.planeName;
+        newFlight.airline = flight.airline;
+        newFlight.model = flight.model;
         newFlight.departure = flight.departure;
         newFlight.destination = flight.destination;
         newFlight.leavingAt = flight.leavingAt;
@@ -58,13 +60,13 @@ class FlightList {
         }
     };
 
-    find(planeName,departure, destination, leavingAt, leavingTime) {
+    find(airline,departure, destination, leavingAt, leavingTime) {
         let current = this.head; // Start traversing from the head
 
         while (current) {
             // Check if the current flight matches the criteria
             if (
-                current.planeName === planeName &&
+                current.airline === airline &&
                 current.departure === departure &&
                 current.destination === destination &&
                 current.leavingAt === leavingAt &&
@@ -86,9 +88,10 @@ class FlightList {
             current = current.next; // Move to the next flight
         }
 
-        let planeInfo = AirlineList.get(planeName);
+        let planeInfo = AirlineList.get(airline);
         let newFlight = new Flight();
-        newFlight.planeName = planeName;
+        newFlight.airline = airline;
+        newFlight.model = planeInfo.model;
         newFlight.capacity = planeInfo.capacity;
         newFlight.economySeats = this.#generateSeats(planeInfo.economySeats);
         newFlight.businessSeats = this.#generateSeats(planeInfo.businessSeats);
@@ -110,10 +113,21 @@ class FlightList {
         let minArrivalDate = new Date(leavingAt);
         let maxArrivalDate = new Date(leavingAt);
         maxArrivalDate.setDate(maxArrivalDate.getDate() + 3); // Adding 3 days
-        let arrivalDate = new Date(
-            minArrivalDate.getTime() + Math.random() * (maxArrivalDate.getTime() - minArrivalDate.getTime())
-        );
-        return arrivalDate;
+    
+        // Generate a random timestamp between min and max arrival dates
+        let randomTimestamp = minArrivalDate.getTime() + Math.random() * (maxArrivalDate.getTime() - minArrivalDate.getTime());
+    
+        // Create a new Date object from the random timestamp.
+        let arrivalDate = new Date(randomTimestamp);
+    
+        // Format the arrival date as "Month Day, Year" (e.g., "March 28, 2024")
+        let formattedArrivalDate = arrivalDate.toLocaleDateString('en-US', { 
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
+    
+        return formattedArrivalDate;
     }
 
     #generateArrivalTime(leavingTime, isSameDay) {

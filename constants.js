@@ -1,6 +1,7 @@
 export const airlines = [
     {
-      name: "Ghana Airways",
+      airline: "Ghana Airways",
+      model: "Boeing 727",
       capacity: 137,
       economySeats: {
         total: 87,

@@ -6,7 +6,7 @@ import Database from "./database";
 class ReservationSystem {
     constructor() {
         this.flightCode = null;
-        this.planeName = "";
+        this.airline = "";
         this.departure = "";
         this.destination = "";
         this.leavingAt = "";
@@ -25,11 +25,11 @@ class ReservationSystem {
     }
 
     // ***********METHODS**************
-    init(planeName, departure, destination, leavingAt, leavingTime){
+    init(airline, departure, destination, leavingAt, leavingTime){
         this.flush();
-        let activeFlight = Database._flights.find(planeName,departure, destination, leavingAt, leavingTime);
+        let activeFlight = Database._flights.find(airline,departure, destination, leavingAt, leavingTime);
         this.flightCode = activeFlight.flightCode;
-        this.planeName = activeFlight.planeName;
+        this.airline = activeFlight.airline;
         this.departure = activeFlight.departure;
         this.destination = activeFlight.destination;
         this.leavingAt = activeFlight.leavingAt;
@@ -54,7 +54,7 @@ class ReservationSystem {
         // save active flight data to global flights list
         let flight = {
             flightCode: this.flightCode,
-            planeName: this.planeName,
+            airline: this.airline,
             departure: this.departure,
             destination: this.destination,
             leavingAt: this.leavingAt,
