@@ -3,12 +3,17 @@
 :root {
   --bg-main: #ffffff;
   --bg-secondary: #3B82F6;
+  --bg-tertiary: #1D4ED8;
   --bg-card: #EFF6FF;
+  --bg-danger: #DC2626;
+
   --fg-main: #172554;
   --fg-secondary: #242424;
+
   --text-secondary: #F5F5F4;
   --text-main: #374151;
-  --bg-button: #1E40AF;
+
+  --border-color: #E5E5E5;
 
   color-scheme: light dark;
   font-synthesis: none;
@@ -97,13 +102,14 @@ header h1{
   font-size: 18px;
   letter-spacing: 1px;
   font-family: "Poppins";
-  background-color: var(--bg-button);
+  background-color: var(--bg-tertiary);
 }
 
 #middle{
   position: sticky;
   top: 0;
   left: 0;
+  z-index: 10;
   background-color: var(--bg-secondary);
 }
 
@@ -132,15 +138,179 @@ nav{
 
 #app{
   padding: 24px;
+  padding-bottom: 76px;
   position: relative;
 }
 
 .app_section{
   width: 100%;
+  margin-bottom: 48px;
+}
+
+.app_header{
+  height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  color: var(--text-main);
+  border-left: 3px solid var(--bg-tertiary);
+}
+
+.app_header h3{
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.app_content{
+  padding: 20px;
+}
+
+.app_content p {
+  font-size: 15px;
+}
+
+
+.form-input{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+}
+
+.app_content label{
+  font-size: 12px;
+}
+
+.app_content input, .app_content select{
+  width: 100%;
+  max-width: 280px;
+  height: 48px;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid var(--border-color);
+  padding: 0 16px;
+  color: var(--text-main);
+  font-size: 16px;
+}
+
+.app_content__flight{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px
+}
+.app_content__passenger{
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+}
+
+.app_content__passenger .passenger-header{
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.app_content__passenger .passenger-header h4{
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--text-main);
+  opacity: 0.4;
+}
+
+.passenger-controls {
+  display: flex;
+  gap: 20px;
+}
+
+.passenger-controls button {
+  padding: 0;
+  background-color: transparent;
+}
+
+.passenger-controls button i{
+  color: var(--bg-secondary);
+  font-size: 32px;
+}
+
+.passenger-controls .delete-btn i{
+  color: var(--bg-danger);
+}
+
+.passenger-form, .app_content__contact, .app_content__payment{
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px 14px;
+}
+
+.app_button #make-reservation{
+  height: 44px;
+  font-size: 16px;
+  padding: 0 28px;
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border-radius: 4px;
+}
+
+.app_content__check form{
+  display: flex;
+  gap: 16px;
+}
+
+.app_content__check form button{
+  height: 48px;
+  font-size: 18px;
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  padding: 0 28px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table header styles */
+th {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 16px 10px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Alternating row styles */
+tr:nth-child(even) {
+  background-color: var(--bg-card);
+}
+
+/* Cell padding and text styles */
+td {
+  padding: 16px 8px;
+}
+
+td button{
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+td button.cancel{
+  background-color: var(--bg-danger);
+}
+
+td button.print{
+  background-color: var(--bg-tertiary);
 }
 
 footer{
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 56px;
   background-color: var(--bg-main);
