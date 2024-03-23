@@ -1,7 +1,7 @@
 
 # Airline Ticket Reservation Webapp
 
-This is a vanilla js reservation system built with vite and styled with css
+This is a vanilla js simple airline ticket reservation system built with vite and styled with css
 
 **Project Link:** NIL
 
