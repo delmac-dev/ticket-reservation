@@ -1,4 +1,13 @@
+import { app } from "../main";
+import showError from "./error";
+
 export default function checkPage(element) {
+
+    if(!app.flightCode){
+        showError(element, "No Flight Booked");
+        return;
+    };
+
     element.html(`
         <!-- ======================FIRST SECTION======================= -->
         <div class="app_section">

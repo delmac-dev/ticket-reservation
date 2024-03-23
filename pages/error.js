@@ -1,4 +1,4 @@
-export default function errorPage(element, msg="An Error Occured") {
+export default function showError(element, msg="An Error Occured") {
     element.html(`
         <div class="error_container">
             <img src="/not-found.svg" alt="not found illustration">

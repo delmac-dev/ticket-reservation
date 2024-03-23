@@ -1,4 +1,16 @@
+import { app } from "../main";
+import showError from "./error";
+
 export default function reservePage(element) {
+    if(!app.flightCode){
+        showError(element, "No Flight Booked");
+        return;
+    };
+    if(app.capacity === 0){
+        showError(element, "This Flight Is Completely Booked");
+        return;
+    };
+
     element.html(`
         <!-- ======================FIRST SECTION======================= -->
         <div class="app_section">
