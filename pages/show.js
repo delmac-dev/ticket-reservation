@@ -67,15 +67,6 @@ export function showPage(element) {
                             <td>Economy</td>
                             <td>R45</td>
                         </tr>
-                        <tr>
-                            <td>OKJ342XD</td>
-                            <td>2897867533</td>
-                            <td>GJK487IO</td>
-                            <td>Jane Smith</td>
-                            <td>Female</td>
-                            <td>First Class</td>
-                            <td>K09</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

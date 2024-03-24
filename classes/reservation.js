@@ -51,20 +51,23 @@ class ReservationList {
         return reservations;
     }
 
-    remove(reservationCode){
+    remove(reservationCode) {
         let current = this.head;
+        let prev = null; // Keep track of the previous node
+    
         while (current) {
-            if(current.reservationCode === reservationCode){
+            if (current.reservationCode === reservationCode) {
                 if (current === this.head) {
                     this.head = current.next; // Move the head to the next ticket
                 } else {
-                    let prev = this.head;
-                    while (prev.next !== current) {
-                        prev = prev.next;
-                    }
-                    prev.next = current.next; // Skip the current ticket
+                    // Update the next reference of the previous node to skip the current node
+                    prev.next = current.next;
                 }
+                return; // Exit the method after removing the node
             }
+    
+            prev = current; // Update the previous node reference
+            current = current.next; // Move to the next node
         }
     }
 

@@ -2,6 +2,7 @@ import Queue from "./queue";
 import { TicketList } from "./ticket";
 import { ReservationList } from "./reservation";
 import Database from "./database";
+import { data } from "jquery";
 
 class ReservationSystem {
     constructor() {
@@ -105,7 +106,6 @@ class ReservationSystem {
 
     addReservation(reservation, tickets) {
         let newReservationCode = this.#generateReservationCode();
-        console.log({flightCode: this.flightCode, reservationCode: newReservationCode, ...reservation});
         this.reservationsList.push({flightCode: this.flightCode, reservationCode: newReservationCode, ...reservation});
 
         tickets.forEach(ticket => {
@@ -127,8 +127,26 @@ class ReservationSystem {
     }
 
     cancelReservation(rCode) {
-        this.ticketsList.remove(rCode); // remove all tickets having the reservation code
         this.reservationsList.remove(rCode); // remove specific reservation
+        let relinquishedSeats = this.ticketsList.remove(rCode); // remove all tickets having the reservation code
+
+        relinquishedSeats.forEach(data => {
+            switch (data.class) {
+                case "Economy":
+                    this.economySeats.enqueue(data.seat);
+                    break;
+                case "Business":
+                    this.businessSeats.enqueue(data.seat);
+                    break;
+                case "First Class":
+                    this.firstClassSeats.enqueue(data.seat);
+                    break;
+                default:
+                    break;
+            }
+
+            this.capacity += 1;
+        });
 
         return "success";
     }

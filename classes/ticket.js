@@ -62,8 +62,10 @@ class TicketList {
     remove(reservationCode) {
         let seats = [];
         let current = this.head;
+        let prev = null; // Keep track of the previous node
+    
         while (current) {
-            if(current.reservationCode === reservationCode){
+            if (current.reservationCode === reservationCode) {
                 let data = {
                     class: current.class,
                     seat: current.seat
@@ -71,13 +73,15 @@ class TicketList {
                 seats.push(data);
                 if (current === this.head) {
                     this.head = current.next; // Move the head to the next ticket
+                    current = this.head; // Update current to the new head
                 } else {
-                    let prev = this.head;
-                    while (prev.next !== current) {
-                        prev = prev.next;
-                    }
-                    prev.next = current.next; // Skip the current ticket
+                    // Update the next reference of the previous node to skip the current node
+                    prev.next = current.next;
+                    current = current.next; // Move to the next node
                 }
+            } else {
+                prev = current; // Update the previous node reference
+                current = current.next; // Move to the next node
             }
         }
 
