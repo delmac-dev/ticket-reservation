@@ -62,7 +62,7 @@ class ReservationSystem {
     }
     
     flush(){
-        if(this.flightCode === "") return;
+        if(!this.flightCode) return;
         // save active flight data to global flights list
         Database._flights.push(this.#instantiateFlight());
 
