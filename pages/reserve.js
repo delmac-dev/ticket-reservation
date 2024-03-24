@@ -2,13 +2,16 @@ import { app, handleAddPassenger, handleDeletePassenger, handleInputChange, rese
 import $ from "jquery";
 import showError from "./error";
 import ticketForm from "./ticket";
+import flatpickr from "flatpickr";
 
 const expiryDateConfig = {
     altInput: true,
     altFormat: "F j, Y",
     dateFormat: "F j, Y",
     minDate: "today",
-  }
+}
+
+let expiryDateInstance;
 
 export default function reservePage(element) {
     if(!app.flightCode){
@@ -137,8 +140,12 @@ export default function reservePage(element) {
     
     // event handler to remove passenger
     handleDeletePassenger($("button.remove-passenger"));
+    
+    // if flatpickr for #expiry-date exist destroy it
+    if(expiryDateInstance) expiryDateInstance.destroy();
 
-    flatpickr("#expiry-date", expiryDateConfig);
+    expiryDateInstance = flatpickr("#expiry-date", expiryDateConfig);
+
 
     return $(".reserve-input").on("change", function (){handleInputChange(this)});
 }

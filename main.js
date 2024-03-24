@@ -43,6 +43,11 @@ export const reserveForm = {
   }]
 }
 
+export const checkForm = {
+  input: "",
+  data: []
+}
+
 // initialise airline data
 AirlineList.populate(airlines);
 
@@ -201,6 +206,18 @@ export function handleMakeReservation(element){
 
     if(status === "success") {
       // show reservation success popup
+    }
+  })
+}
+
+export function handleCancelReservation(element){
+  element.on("click", function() {
+    let rCode = $(this).data("rCode");
+
+    let status = app.cancelReservation(rCode);
+
+    if(status === "success") {
+      // show deleted success toast
     }
   })
 }
