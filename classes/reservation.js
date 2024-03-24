@@ -1,9 +1,17 @@
 class Reservation {
-    constructor() {
-        this.reservationCode = "";
-        this.flightCode = "";
-        this.reserver = "";
-        this.totalReserved = 0;
+    constructor({reservationCode, flightCode, lastname, totalReserved, othernames, email, number, cardType, cardNumber, cardName, expiryDate, cvv}) {
+        this.reservationCode = reservationCode;
+        this.flightCode = flightCode;
+        this.lastname = lastname;
+        this.othernames = othernames
+        this.totalReserved = totalReserved;
+        this.email = email;
+        this.number = number;
+        this.cardType = cardType;
+        this.cardNumber = cardNumber;
+        this.cardName = cardName;
+        this.expiryDate = expiryDate;
+        this.cvv = cvv;
         this.next = null;
     }
 }
@@ -61,11 +69,7 @@ class ReservationList {
     }
 
     push(reservation){
-        let newReservation = new Reservation();
-        newReservation.reservationCode = reservation.reservationCode;
-        newReservation.flightCode = reservation.flightCode;
-        newReservation.reserver = reservation.reserver;
-        newReservation.totalReserved = reservation.totalReserved;
+        let newReservation = new Reservation(reservation);
 
         if (!this.head) {
             this.head = newReservation;

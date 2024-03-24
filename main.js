@@ -178,4 +178,29 @@ export function handleDeletePassenger(element) {
 
     reservePage($("#app"));
   })
+};
+
+export function handleMakeReservation(element){
+  element.on("click", function() {
+    let {lastname, othernames, email, number} = reserveForm.contact[0];
+    let {cardType, cardNumber, cardName, expiryDate, cvv} = reserveForm.payment[0];
+    let reservation = {
+      lastname,
+      othernames,
+      email,
+      number,
+      cardType,
+      cardNumber,
+      cardName,
+      expiryDate,
+      cvv,
+      totalReserved: reserveForm.passengers.length,
+    };
+
+    let status = app.addReservation(reservation, reserveForm.passengers);
+
+    if(status === "success") {
+      // show reservation success popup
+    }
+  })
 }

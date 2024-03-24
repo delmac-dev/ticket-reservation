@@ -103,16 +103,32 @@ class ReservationSystem {
         this.ticketsList.head = null;
     };
 
-    addReservation() {
+    addReservation(reservation, tickets) {
+        let newReservationCode = this.#generateReservationCode();
+        this.reservationsList.push({flightCode: this.flightCode, reservationCode: newReservationCode, ...reservation});
 
+        tickets.forEach(ticket => {
+            let ticketCode = this.#generateTicketCode();
+
+            // TODO: make sure to check if generated seat is null
+            let ticketSeat = this.#generateSeat(ticket.seatClass);
+
+            // TODO: make sure to check if generated price is null
+            let ticketPrice = this.#generatePrice(ticket.seatClass);
+
+            this.ticketsList.push({ticketCode, newReservationCode, flightCode: this.flightCode, seat:ticketSeat, price: ticketPrice, ...ticket });
+            this.capacity -= 1;
+        });
+
+        // TODO: handle some errors
+
+        return "success";
     }
 
-    addTicket() {
+    cancelReservation(rCode) {
+        this.reservationsList.remove(rCode);
 
-    }
-
-    cancelReservation() {
-
+        return "success";
     }
 
     printReservation() {
@@ -125,6 +141,52 @@ class ReservationSystem {
 
     displayPassengers() {
         
+    }
+
+    #generateReservationCode() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let code = '';
+        for (let i = 0; i < 10; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            code += characters[randomIndex];
+        }
+        return code;
+    }
+
+    #generateTicketCode() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = '';
+        for (let i = 0; i < 7; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            code += characters[randomIndex];
+        }
+        return code;
+    }
+
+    #generateSeat(seatClass) {
+        switch (seatClass) {
+            case "Economy":
+                return this.economySeats.dequeue();
+            case "Business":
+                return this.businessSeats.dequeue();
+            case "Fist Class":
+                return this.firstClassSeats.dequeue();
+            default:
+                return null;
+        }
+    }
+
+    #generatePrice(seatClass) {
+        switch (seatClass) {
+            case "Economy":
+                return this.economyPrice
+            case "Business":
+                return this.businessPrice
+            case "Fist Class":
+                return this.firstClassPrice
+            default:
+                return null;
+        }
     }
 
 }

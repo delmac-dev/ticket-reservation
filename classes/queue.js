@@ -15,7 +15,7 @@ class Queue {
     // Method to remove and return the first element from the queue
     dequeue() {
         if (this.isEmpty()) {
-            return "Queue is empty"; // Return error message if queue is empty
+            return null; // Return error message if queue is empty
         }
         return this.items.shift(); // Remove and return the first element from the queue
     }
@@ -23,7 +23,7 @@ class Queue {
     // Method to return the first element from the queue without removing it
     front() {
         if (this.isEmpty()) {
-            return "Queue is empty"; // Return error message if queue is empty
+            return null; // Return error message if queue is empty
         }
         return this.items[0]; // Return the first element from the queue
     }

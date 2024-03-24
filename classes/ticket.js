@@ -1,13 +1,15 @@
 class Ticket {
-    constructor(){
-        this.ticketCode = "";
-        this.reservationCode = "";
-        this.flightCode = "";
-        this.seat = "";
-        this.class = "";
-        this.name = "";
-        this.age = "";
-        this.price = 0;
+    constructor({ticketCode, reservationCode, flightCode, seat, seatClass, lastname,othernames, age, price, gender}){
+        this.ticketCode = ticketCode;
+        this.reservationCode = reservationCode;
+        this.flightCode = flightCode;
+        this.seat = seat;
+        this.seatClass = seatClass;
+        this.lastname = lastname;
+        this.othernames = othernames;
+        this.age = age;
+        this.price = price;
+        this,gender=gender;
         this.next = null;
     }
 }
@@ -24,15 +26,7 @@ class TicketList {
     }
 
     push(ticket) {
-        let newTicket = new Ticket();
-        newTicket.ticketCode = ticket.ticketCode;
-        newTicket.reservationCode = ticket.ticketCode;
-        newTicket.flightCode = ticket.ticketCode;
-        newTicket.name = ticket.ticketCode;
-        newTicket.age = ticket.ticketCode;
-        newTicket.class = ticket.ticketCode;
-        newTicket.seat = ticket.ticketCode;
-        newTicket.price = ticket.ticketCode;
+        let newTicket = new Ticket(ticket);
 
         if (!this.head) {
             this.head = newTicket;
