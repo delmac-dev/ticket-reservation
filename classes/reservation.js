@@ -93,6 +93,21 @@ class ReservationList {
         }
         return reservations;
     }
+
+    iterate(callback, isRender = true) {
+        let current = this.head;
+
+        let htmlString = '';
+
+        while (current !== null) {
+            let result = callback(current);
+
+            if(isRender) htmlString += result;
+            current = current.next;
+        }
+
+        return htmlString;
+    }
 }
 
 export {Reservation, ReservationList};

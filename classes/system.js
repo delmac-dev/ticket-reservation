@@ -117,7 +117,7 @@ class ReservationSystem {
             // TODO: make sure to check if generated price is null
             let ticketPrice = this.#generatePrice(ticket.seatClass);
 
-            this.ticketsList.push({ticketCode, newReservationCode, flightCode: this.flightCode, seat:ticketSeat, price: ticketPrice, ...ticket });
+            this.ticketsList.push({ticketCode, reservationCode: newReservationCode, flightCode: this.flightCode, seat:ticketSeat, price: ticketPrice, ...ticket });
             this.capacity -= 1;
         });
 
@@ -159,14 +159,10 @@ class ReservationSystem {
         return this.reservationsList.getByName(lastname);
     }
 
-    displayPassengers() {
-        
-    }
-
     #generateReservationCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let code = '';
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 14; i++) {
             const randomIndex = Math.floor(Math.random() * characters.length);
             code += characters[randomIndex];
         }
@@ -189,7 +185,7 @@ class ReservationSystem {
                 return this.economySeats.dequeue();
             case "Business":
                 return this.businessSeats.dequeue();
-            case "Fist Class":
+            case "First Class":
                 return this.firstClassSeats.dequeue();
             default:
                 return null;
@@ -202,7 +198,7 @@ class ReservationSystem {
                 return this.economyPrice
             case "Business":
                 return this.businessPrice
-            case "Fist Class":
+            case "First Class":
                 return this.firstClassPrice
             default:
                 return null;

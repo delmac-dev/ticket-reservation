@@ -3,7 +3,7 @@ import showError from "./error";
 
 export function showPage(element) {
     if(!app.flightCode){
-        showError(element, "No Flight Booked");
+        showError(element, "No Flight Selected Yet");
         return;
     };
 
@@ -58,15 +58,19 @@ export function showPage(element) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>WQ8674WQ</td>
-                            <td>4898737246</td>
-                            <td>ERG4562T</td>
-                            <td>John Doe</td>
-                            <td>Female</td>
-                            <td>Economy</td>
-                            <td>R45</td>
-                        </tr>
+                        ${app.ticketsList.iterate(({ticketCode, reservationCode, flightCode, lastname, othernames, gender, seatClass, seat})=> (
+                            `
+                            <tr>
+                                <td>${ticketCode}</td>
+                                <td>${reservationCode}</td>
+                                <td>${flightCode}</td>
+                                <td>${lastname}, ${othernames}</td>
+                                <td>${gender}</td>
+                                <td>${seatClass}</td>
+                                <td>${seat}</td>
+                            </tr>
+                            `
+                        ))}
                     </tbody>
                 </table>
             </div>

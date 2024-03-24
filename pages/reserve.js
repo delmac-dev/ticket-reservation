@@ -15,7 +15,7 @@ let expiryDateInstance;
 
 export default function reservePage(element) {
     if(!app.flightCode){
-        showError(element, "No Flight Booked");
+        showError(element, "No Flight Selected Yet");
         return;
     };
     if(app.capacity === 0){

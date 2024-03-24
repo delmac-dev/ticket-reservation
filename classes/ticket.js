@@ -9,7 +9,7 @@ class Ticket {
         this.othernames = othernames;
         this.age = age;
         this.price = price;
-        this,gender=gender;
+        this.gender=gender;
         this.next = null;
     }
 }
@@ -98,6 +98,21 @@ class TicketList {
             current = current.next;
         }
         return tickets;
+    }
+
+    iterate(callback, isRender= true) {
+        let current = this.head;
+
+        let htmlString = '';
+
+        while (current !== null) {
+            let result = callback(current);
+
+            if(isRender) htmlString += result;
+            current = current.next;
+        }
+
+        return htmlString;
     }
 }
 

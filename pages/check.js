@@ -5,7 +5,7 @@ import $ from 'jquery';
 export default function checkPage(element) {
 
     if(!app.flightCode){
-        showError(element, "No Flight Booked");
+        showError(element, "No Flight Selected Yet");
         return;
     };
 
