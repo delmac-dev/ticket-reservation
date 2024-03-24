@@ -61,6 +61,8 @@ function togglePages(btns) {
 
       btns.filter('[data-active="true"]').attr('data-active', 'false');
       $(this).attr('data-active', 'true');
+
+      foundReservations = [];
       
       const page = $(this).data('page');
       switch(page) {
@@ -120,6 +122,7 @@ function handleBookFlight(element) {
     if(!departure|| !destination || !airline || !departureDate || !departureTime) return;
     
     app.init(airline, departure, destination, departureDate, departureTime);
+    initReserverForm();
 
     $('[data-page="reserve"]').trigger("click");
   })
