@@ -18,35 +18,9 @@ const departureDateConfig = {
   maxDate: new Date().fp_incr(14),
 }
 
-export const reserveForm = {
-  passengers: [
-    {
-      lastname: "",
-      othernames: "",
-      seatClass: "",
-      age: "",
-      gender: ""
-    }
-  ],
-  contact: [{
-    lastname: "",
-    othernames: "",
-    email: "",
-    number: ""
-  }],
-  payment: [{
-    cardType: "",
-    cardNumber: "",
-    cardName: "",
-    expiryDate: "",
-    cvv: ""
-  }]
-}
+export var reserveForm = {}
 
-export const checkForm = {
-  input: "",
-  data: []
-}
+export var foundReservations = [];
 
 // initialise airline data
 AirlineList.populate(airlines);
@@ -58,55 +32,54 @@ Database.init(getData("flights"),getData("reservations"),getData("tickets"));
 export const app = new ReservationSystem();
 
 $(function() {
-    // use flatpickr for selecting date
-    flatpickr("#departure-date", departureDateConfig);
+  // initialise reserve form
+  initReserverForm();
 
-    // provide options for neccesary options for select tags
-    provideOptions($("#airline"), airlines, "airline", "airline");
-    provideOptions($("#departure"), departureLocations, "location", "location");
-    provideOptions($("#destination"), destinationLocations, "location", "location");
-    provideOptions($("#time"), availableDeparturtimes, "name", "time");
+  // use flatpickr for selecting date
+  flatpickr("#departure-date", departureDateConfig);
 
-    // handle flight booked
-    handleBookFlight($("#confirm-flight"));
+  // provide options for neccesary options for select tags
+  provideOptions($("#airline"), airlines, "airline", "airline");
+  provideOptions($("#departure"), departureLocations, "location", "location");
+  provideOptions($("#destination"), destinationLocations, "location", "location");
+  provideOptions($("#time"), availableDeparturtimes, "name", "time");
 
-    // on page load set app content to home;
-    homePage($("#app"));
+  // handle flight booked
+  handleBookFlight($("#confirm-flight"));
 
-    // function to add events to toggle pages
-    togglePages($('.nav-btn'));
+  // on page load set app content to home;
+  homePage($("#app"));
+
+  // function to add events to toggle pages
+  togglePages($('.nav-btn'));
 
 });
 
 function togglePages(btns) {
     btns.on('click', function() {
-        let body = $("#app");
-        toggleActive(btns, this);
-        const page = $(this).data('page');
-        switch(page) {
-          case 'home':
-            homePage(body);
-            break;
-          case 'reserve':
-            reservePage(body);
-            break;
-          case 'check':
-            checkPage(body);
-            break;
-          case 'show':
-            showPage(body);
-            break;
-          default:
-            break;
-        }
-    })
-}
+      let body = $("#app");
 
-function toggleActive(btns, active) {
-    btns.each(function() {
-      $(this).attr('data-active', 'false');
-    });
-    $(active).attr('data-active', 'true');
+      btns.filter('[data-active="true"]').attr('data-active', 'false');
+      $(this).attr('data-active', 'true');
+      
+      const page = $(this).data('page');
+      switch(page) {
+        case 'home':
+          homePage(body);
+          break;
+        case 'reserve':
+          reservePage(body);
+          break;
+        case 'check':
+          checkPage(body);
+          break;
+        case 'show':
+          showPage(body);
+          break;
+        default:
+          break;
+      }
+    })
 }
 
 function getData(name) {
@@ -205,19 +178,74 @@ export function handleMakeReservation(element){
     let status = app.addReservation(reservation, reserveForm.passengers);
 
     if(status === "success") {
-      // show reservation success popup
+      // show reservation success popup;
+
+      // initialise reserveForm
+      initReserverForm();
+
+      // rerender reservePage
+      reservePage($("#app"));
     }
   })
 }
 
 export function handleCancelReservation(element){
   element.on("click", function() {
-    let rCode = $(this).data("rCode");
+    let rCode = $(this).data("code");
+    let index = $(this).data("index");
 
+    
     let status = app.cancelReservation(rCode);
-
+    
     if(status === "success") {
       // show deleted success toast
+
+      // remove reservation from found reservations
+      foundReservations.splice(index, 1);
+
+      // rerender checkpage
+      checkPage($("#app"));
     }
   })
+}
+
+export function handleCheckReservation(form){
+  form.on("submit", function(event) {
+    // preventdefault code
+    event.preventDefault();
+    
+    let lastname = $("#search-reservation").val();
+
+    if(!lastname) return;
+
+    foundReservations = app.checkReservation(lastname)
+    checkPage($("#app"));
+  })
+}
+
+function initReserverForm() {
+  reserveForm = {
+    passengers: [
+      {
+        lastname: "",
+        othernames: "",
+        seatClass: "",
+        age: "",
+        gender: ""
+      }
+    ],
+    contact: [{
+      lastname: "",
+      othernames: "",
+      email: "",
+      number: ""
+    }],
+    payment: [{
+      cardType: "",
+      cardNumber: "",
+      cardName: "",
+      expiryDate: "",
+      cvv: ""
+    }]
+  }
 }

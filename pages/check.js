@@ -1,5 +1,6 @@
-import { app } from "../main";
+import { app, foundReservations, handleCancelReservation, handleCheckReservation } from "../main";
 import showError from "./error";
+import $ from 'jquery';
 
 export default function checkPage(element) {
 
@@ -47,13 +48,13 @@ export default function checkPage(element) {
             </div>
             <div class="app_content">
                 <div class="app_content__check">
-                <div class="form-input">
-                    <label for="search-reservation">Search for a reservation in this flight by last name</label>
-                    <form>
-                    <input type="text" name="search-reservation" id="search-reservation" placeholder="Enter last name">
-                    <button type="submit">Search</button>
+                    <div class="form-input">
+                        <label for="search-reservation">Search for a reservation in this flight by last name</label>
+                        <form>
+                            <input type="text" name="search-reservation" id="search-reservation" placeholder="Enter last name">
+                            <button type="submit">Search</button>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -76,31 +77,29 @@ export default function checkPage(element) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>4898737246</td>
-                            <td>ERG4562T</td>
-                            <td>John Doe</td>
-                            <td>john@example.com</td>
-                            <td>1</td>
-                            <td>
-                                <button type="button" class="print">Print</button>
-                                <button type="button" class="cancel">Cancel</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2897867533</td>
-                            <td>GJK487IO</td>
-                            <td>Jane Smith</td>
-                            <td>jane@example.com</td>
-                            <td>5</td>
-                            <td>
-                                <button type="button" class="print">Print</button>
-                                <button type="button" class="cancel">Cancel</button>
-                            </td>
-                        </tr>
+                        ${foundReservations.map(({reservationCode, flightCode, lastname, othernames, email, totalReserved}, index) => (
+                            `<tr>
+                                <td>${reservationCode}</td>
+                                <td>${flightCode}</td>
+                                <td>${lastname}, ${othernames}</td>
+                                <td>${email}</td>
+                                <td>${totalReserved}</td>
+                                <td>
+                                    <button type="button" data-code="${reservationCode}" data-index="${index}" class="print">Print</button>
+                                    <button type="button" data-code="${reservationCode}" data-index="${index}" class="cancel">Cancel</button>
+                                </td>
+                            </tr>
+                            `
+                        ))}
                     </tbody>
                 </table>
             </div>
         </div>
-    `)
+    `);
+    
+    // added eventlistener to search for reservation on click
+    handleCheckReservation($(".app_content__check form"));
+
+    // added eventlistener to cancel reservation on click 
+    handleCancelReservation($("button.cancel"));
 }

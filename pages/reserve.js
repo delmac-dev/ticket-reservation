@@ -1,4 +1,4 @@
-import { app, handleAddPassenger, handleDeletePassenger, handleInputChange, reserveForm } from "../main";
+import { app, handleAddPassenger, handleDeletePassenger, handleInputChange, handleMakeReservation, reserveForm } from "../main";
 import $ from "jquery";
 import showError from "./error";
 import ticketForm from "./ticket";
@@ -140,6 +140,9 @@ export default function reservePage(element) {
     
     // event handler to remove passenger
     handleDeletePassenger($("button.remove-passenger"));
+
+    // event listener to make the reservation
+    handleMakeReservation($("#make-reservation"));
     
     // if flatpickr for #expiry-date exist destroy it
     if(expiryDateInstance) expiryDateInstance.destroy();

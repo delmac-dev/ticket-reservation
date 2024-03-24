@@ -79,11 +79,11 @@ class ReservationList {
         }
     }
 
-    getByName(reserver) {
+    getByName(lastname) {
         const reservations = [];
         let current = this.head;
         while (current) {
-            if (current.reserver === reserver) {
+            if (current.lastname === lastname) {
                 reservations.push(current);
             }
             current = current.next;

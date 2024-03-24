@@ -105,6 +105,7 @@ class ReservationSystem {
 
     addReservation(reservation, tickets) {
         let newReservationCode = this.#generateReservationCode();
+        console.log({flightCode: this.flightCode, reservationCode: newReservationCode, ...reservation});
         this.reservationsList.push({flightCode: this.flightCode, reservationCode: newReservationCode, ...reservation});
 
         tickets.forEach(ticket => {
@@ -126,7 +127,8 @@ class ReservationSystem {
     }
 
     cancelReservation(rCode) {
-        this.reservationsList.remove(rCode);
+        this.ticketsList.remove(rCode); // remove all tickets having the reservation code
+        this.reservationsList.remove(rCode); // remove specific reservation
 
         return "success";
     }
@@ -135,8 +137,8 @@ class ReservationSystem {
 
     }
 
-    checkReservation() {
-
+    checkReservation(lastname) {
+        return this.reservationsList.getByName(lastname);
     }
 
     displayPassengers() {

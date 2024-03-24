@@ -37,15 +37,6 @@ class Queue {
     size() {
         return this.items.length; // Return the number of elements in the queue
     }
-
-    // Method to print the elements of the queue
-    print() {
-        let str = "";
-        for (let i = 0; i < this.items.length; i++) {
-            str += this.items[i] + " ";
-        }
-        return str.trim(); // Return a string representation of the elements in the queue
-    }
 }
 
 
