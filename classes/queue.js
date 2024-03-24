@@ -9,13 +9,13 @@ class Queue {
 
     // Method to add an element to the queue
     enqueue(element) {
-        this.items.push(element); // Add the element to the end of the queue
+        this.items.push(element);
     }
 
     // Method to remove and return the first element from the queue
     dequeue() {
         if (this.isEmpty()) {
-            return null; // Return error message if queue is empty
+            return null;
         }
         return this.items.shift(); // Remove and return the first element from the queue
     }
@@ -23,7 +23,7 @@ class Queue {
     // Method to return the first element from the queue without removing it
     front() {
         if (this.isEmpty()) {
-            return null; // Return error message if queue is empty
+            return null;
         }
         return this.items[0]; // Return the first element from the queue
     }
