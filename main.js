@@ -96,7 +96,7 @@ function getData(name) {
     }
 }
 
-function saveData(name, data) {
+export function saveData(name, data) {
     // Convert the data to a JSON string
     const jsonData = JSON.stringify(data);
 
@@ -213,13 +213,25 @@ export function handleCheckReservation(form){
   form.on("submit", function(event) {
     // preventdefault code
     event.preventDefault();
-    
+
     let lastname = $("#search-reservation").val();
 
     if(!lastname) return;
 
     foundReservations = app.checkReservation(lastname)
     checkPage($("#app"));
+  })
+}
+
+export function handlePrintReservation(element){
+  element.on("click", function() {
+    let rCode = $(this).data("code");
+    
+    let status = app.printReservation(rCode);
+    
+    if(status === "success") {
+      // show download started popup
+    }
   })
 }
 

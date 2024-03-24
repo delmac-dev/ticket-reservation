@@ -93,6 +93,18 @@ class ReservationList {
         }
         return reservations;
     }
+    
+    getByCode(reservationCode) {
+        const reservations = [];
+        let current = this.head;
+        while (current) {
+            if (current.reservationCode === reservationCode) {
+                reservations.push(current);
+            }
+            current = current.next;
+        }
+        return reservations;
+    }
 
     iterate(callback, isRender = true) {
         let current = this.head;

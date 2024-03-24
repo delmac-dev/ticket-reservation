@@ -2,27 +2,30 @@ import AirlineList from "./airline";
 import { departureLocations, destinationLocations } from "../constants";
 
 class Flight {
-    constructor() {
-        this.flightCode = ""
-        this.airline= "";
-        this.model= "";
-        this.departure= "";
-        this.departureAirport="";
-        this.departureIATA=""
-        this.destination= "";
-        this.destinationAirport="";
-        this.destinationIATA=""
-        this.leavingAt= "";
-        this.arrivingAt= "";
-        this.leavingTime= "";
-        this.arrivingTime= "";
-        this.capacity = "";
-        this.economySeats = [];
-        this.businessSeats = [];
-        this.firstClassSeats = [];
-        this.economyPrice = 0;
-        this.businessPrice = 0;
-        this.firstClassPrice = 0;
+    constructor({flightCode, airline,model,departure,departureAirport,departureIATA,destination,destinationAirport,destinationIATA,
+                leavingAt,arrivingAt,leavingTime,arrivingTime,capacity,economySeats,businessSeats,firstClassSeats,economyPrice,
+                businessPrice,firstClassPrice}) {
+
+        this.flightCode = flightCode || "";
+        this.airline= airline || "";
+        this.model= model || "";
+        this.departure= departure || "";
+        this.departureAirport= departureAirport || "";
+        this.departureIATA= departureIATA || "";
+        this.destination= destination || "";
+        this.destinationAirport= destinationAirport || "";
+        this.destinationIATA= destinationIATA || "";
+        this.leavingAt= leavingAt || ""; 
+        this.arrivingAt= arrivingAt || "";
+        this.leavingTime= leavingTime || "";
+        this.arrivingTime= arrivingTime || "";
+        this.capacity = capacity || 0;
+        this.economySeats = economySeats || [];
+        this.businessSeats = businessSeats || [];
+        this.firstClassSeats = firstClassSeats || [];
+        this.economyPrice = economyPrice || 0;
+        this.businessPrice = businessPrice || 0;
+        this.firstClassPrice = firstClassPrice || 0;
         this.next = null;
     }
 };
@@ -39,27 +42,7 @@ class FlightList {
     }
 
     push(flight){
-        let newFlight = new Flight();
-        newFlight.flightCode = flight.flightCode;
-        newFlight.airline = flight.airline;
-        newFlight.model = flight.model;
-        newFlight.departure = flight.departure;
-        newFlight.departureAirport = flight.departureAirport;
-        newFlight.departureIATA = flight.departureIATA;
-        newFlight.destination = flight.destination;
-        newFlight.destinationAirport = flight.destinationAirport;
-        newFlight.destinationIATA = flight.destinationIATA;
-        newFlight.leavingAt = flight.leavingAt;
-        newFlight.arrivingAt = flight.arrivingAt;
-        newFlight.leavingTime = flight.leavingTime;
-        newFlight.arrivingTime = flight.arrivingTime;
-        newFlight.capacity = flight.capacity;
-        newFlight.economySeats = flight.economySeats;
-        newFlight.businessSeats = flight.businessSeats;
-        newFlight.firstClassSeats = flight.firstClassSeats;
-        newFlight.economyPrice = flight.economyPrice;
-        newFlight.businessPrice = flight.businessPrice;
-        newFlight.firstClassPrice = flight.firstClassPrice;
+        let newFlight = new Flight(flight);
 
         if (!this.head) {
             this.head = newFlight;
@@ -71,6 +54,7 @@ class FlightList {
 
     find(airline,departure, destination, leavingAt, leavingTime) {
         let current = this.head; // Start traversing from the head
+        let prev = null; // Keep track of the previous node
 
         while (current) {
             // Check if the current flight matches the criteria
@@ -81,51 +65,67 @@ class FlightList {
                 current.leavingAt === leavingAt &&
                 current.leavingTime === leavingTime
             ) {
-                let foundFlight = current;
-                if (current === this.head) {
-                    this.head = current.next; // Move the head to the next flight
+                if (prev === null) {
+                    // If the found flight is the head, update the head to the next flight
+                    this.head = current.next;
                 } else {
-                    let prev = this.head;
-                    while (prev.next !== current) {
-                        prev = prev.next;
-                    }
-                    prev.next = current.next; // Skip the current flight
+                    // If the found flight is not the head, skip it by updating the next reference of the previous node
+                    prev.next = current.next;
                 }
-                foundFlight.next = null; // Detach the found flight from the list
-                return foundFlight; // Return the found flight
+                current.next = null; // Detach the found flight from the list
+                return current; // Return the found flight
             }
+            prev = current; // Update the previous node reference
             current = current.next; // Move to the next flight
         }
+
         // get details of departureLocation;
         let departureObj = this.#findObject(departureLocations, "location", departure);
         
         // get details of destinationLocation;
         let destinationObj = this.#findObject(destinationLocations, "location", destination);
 
+        let arrivingAt = this.#generateArrivalDate(leavingAt);
+
         let planeInfo = AirlineList.get(airline);
-        let newFlight = new Flight();
-        newFlight.airline = airline;
-        newFlight.model = planeInfo.model;
-        newFlight.capacity = planeInfo.capacity;
-        newFlight.economySeats = this.#generateSeats(planeInfo.economySeats);
-        newFlight.businessSeats = this.#generateSeats(planeInfo.businessSeats);
-        newFlight.firstClassSeats = this.#generateSeats(planeInfo.firstClassSeats);
-        newFlight.destination = destination;
-        newFlight.destinationAirport = destinationObj.airport;
-        newFlight.destinationIATA = destinationObj.IATA;
-        newFlight.departure = departure;
-        newFlight.departureAirport = departureObj.airport;
-        newFlight.departureIATA = departureObj.IATA;
-        newFlight.leavingAt = leavingAt;
-        newFlight.arrivingAt = this.#generateArrivalDate(leavingAt);
-        newFlight.leavingTime = leavingTime;
-        newFlight.arrivingTime = this.#generateArrivalTime(leavingTime, leavingAt === newFlight.arrivingAt);
-        newFlight.flightCode = this.#generateFlightCode();
-        newFlight.economyPrice = this.#generatePrice("econ");
-        newFlight.businessPrice = this.#generatePrice("bus");
-        newFlight.firstClassPrice = this.#generatePrice("first");
-        return newFlight; // Return a newly created flight node
+        return new Flight({
+            airline: airline,
+            model: planeInfo.model,
+            capacity: planeInfo.capacity,
+            economySeats: this.#generateSeats(planeInfo.economySeats),
+            businessSeats: this.#generateSeats(planeInfo.businessSeats),
+            firstClassSeats: this.#generateSeats(planeInfo.firstClassSeats),
+            destination,
+            destinationAirport: destinationObj.airport,
+            destinationIATA: destinationObj.IATA,
+            departure,
+            departureAirport: departureObj.airport,
+            departureIATA: departureObj.IATA,
+            leavingAt,
+            arrivingAt,
+            leavingTime,
+            arrivingTime: this.#generateArrivalTime(leavingTime, leavingAt === arrivingAt),
+            flightCode: this.#generateFlightCode(),
+            economyPrice: this.#generatePrice("econ"),
+            businessPrice: this.#generatePrice("bus"),
+            firstClassPrice: this.#generatePrice("first"),
+        });
     };
+
+    iterate(callback, isRender = true) {
+        let current = this.head;
+
+        let htmlString = '';
+
+        while (current !== null) {
+            let result = callback(current);
+
+            if(isRender) htmlString += result;
+            current = current.next;
+        }
+
+        return htmlString;
+    }
 
     #generateArrivalDate(leavingAt) {
         let minArrivalDate = new Date(leavingAt);

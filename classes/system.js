@@ -3,6 +3,7 @@ import { TicketList } from "./ticket";
 import { ReservationList } from "./reservation";
 import Database from "./database";
 import { data } from "jquery";
+import { saveData } from "../main";
 
 class ReservationSystem {
     constructor() {
@@ -63,44 +64,18 @@ class ReservationSystem {
     flush(){
         if(this.flightCode === "") return;
         // save active flight data to global flights list
-        let flight = {
-            flightCode: this.flightCode,
-            airline: this.airline,
-            model: this.model,
-            departure: this.departure,
-            departureAirport:this.departureAirport,
-            departureIATA:this.departureIATA,
-            destination: this.destination,
-            destinationairport: this.destinationAirport,
-            destinationIATA: this.destinationIATA,
-            leavingAt: this.leavingAt,
-            arrivingAt: this.arrivingAt,
-            leavingTime: this.leavingTime,
-            arrivingTime: this.arrivingTime,
-            capacity: this.capacity,
-            economySeats: this.economySeats.items,
-            businessSeats: this.businessSeats.items,
-            firstClassSeats: this.firstClassSeats.items,
-            economyPrice: this.economyPrice,
-            businessPrice: this.businessPrice,
-            firstClassPrice: this.firstClassPrice,
-        }
-        Database._flights.push(flight);
+        Database._flights.push(this.#instantiateFlight());
 
         // save active reservations in global reservations list
-        let current = this.reservationsList.head;
-        while(current) {
+        this.reservationsList.iterate((current)=> {
             Database._reservations.push(current);
-            current = current.next;
-        }
+        }, false);
         this.reservationsList.head = null;
 
         // save active tickets in global tickets list
-        current = this.ticketsList.head;
-        while(current) {
+        this.ticketsList.iterate((current)=>{
             Database._tickets.push(current);
-            current = current.next;
-        }
+        }, false);
         this.ticketsList.head = null;
     };
 
@@ -122,6 +97,8 @@ class ReservationSystem {
         });
 
         // TODO: handle some errors
+
+        this.saveProgress();
 
         return "success";
     }
@@ -148,15 +125,50 @@ class ReservationSystem {
             this.capacity += 1;
         });
 
+        this,this.saveProgress();
+
         return "success";
     }
 
-    printReservation() {
+    printReservation(rCode) {
 
     }
 
     checkReservation(lastname) {
         return this.reservationsList.getByName(lastname);
+    }
+
+    saveProgress() {
+        let dbReservation = [], 
+            dbFlights = [],
+            dbTickets = [],
+            activeFlight = this.#instantiateFlight(),
+            activeReservations = [],
+            activeTickets = []
+
+        // save dbRservations to list
+        Database._reservations.iterate((current)=> dbReservation.push({...current}), false);
+
+        // save dbFlights to list
+        Database._flights.iterate((current)=> dbFlights.push({...current}), false);
+
+        // save dbTickets to list
+        Database._tickets.iterate((current)=> dbTickets.push({...current}), false);
+
+        // save reservationList to list
+        this.reservationsList.iterate((current)=> activeReservations.push({...current}), false);
+
+        // save ticketList to list
+        this.ticketsList.iterate((current)=> activeTickets.push({...current}), false);
+
+        // save reservations
+        saveData("reservations", [...dbReservation, ...activeReservations]);
+
+        // save tickets
+        saveData("tickets", [...dbTickets, ...activeTickets]);
+
+        // save flights
+        saveData("flights", [...dbFlights, activeFlight]);
     }
 
     #generateReservationCode() {
@@ -205,6 +217,30 @@ class ReservationSystem {
         }
     }
 
+    #instantiateFlight(){
+        return {
+            flightCode: this.flightCode,
+            airline: this.airline,
+            model: this.model,
+            departure: this.departure,
+            departureAirport:this.departureAirport,
+            departureIATA:this.departureIATA,
+            destination: this.destination,
+            destinationairport: this.destinationAirport,
+            destinationIATA: this.destinationIATA,
+            leavingAt: this.leavingAt,
+            arrivingAt: this.arrivingAt,
+            leavingTime: this.leavingTime,
+            arrivingTime: this.arrivingTime,
+            capacity: this.capacity,
+            economySeats: this.economySeats.items,
+            businessSeats: this.businessSeats.items,
+            firstClassSeats: this.firstClassSeats.items,
+            economyPrice: this.economyPrice,
+            businessPrice: this.businessPrice,
+            firstClassPrice: this.firstClassPrice,
+        }
+    }
 }
 
 export default ReservationSystem;
