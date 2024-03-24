@@ -10,7 +10,7 @@ import flatpickr from "flatpickr";
 import { airlines, availableDeparturtimes, departureLocations, destinationLocations } from "./constants";
 import ReservationSystem from "./classes/system";
 
-const dateConfig = {
+const departureDateConfig = {
   altInput: true,
   altFormat: "F j, Y",
   dateFormat: "F j, Y",
@@ -28,12 +28,19 @@ export const reserveForm = {
       gender: ""
     }
   ],
-  contact: {
-
-  },
-  payment: {
-
-  }
+  contact: [{
+    lastname: "",
+    othernames: "",
+    email: "",
+    number: ""
+  }],
+  payment: [{
+    cardType: "",
+    cardNumber: "",
+    cardName: "",
+    expiryDate: "",
+    cvv: ""
+  }]
 }
 
 // initialise airline data
@@ -47,8 +54,7 @@ export const app = new ReservationSystem();
 
 $(function() {
     // use flatpickr for selecting date
-    flatpickr("#date", dateConfig);
-    $(".fr").off()
+    flatpickr("#departure-date", departureDateConfig);
 
     // provide options for neccesary options for select tags
     provideOptions($("#airline"), airlines, "airline", "airline");
@@ -60,10 +66,11 @@ $(function() {
     handleBookFlight($("#confirm-flight"));
 
     // on page load set app content to home;
-    // homePage($("#app"));
+    homePage($("#app"));
 
     // function to add events to toggle pages
     togglePages($('.nav-btn'));
+
 });
 
 function togglePages(btns) {
@@ -76,7 +83,6 @@ function togglePages(btns) {
             homePage(body);
             break;
           case 'reserve':
-            console.log(app);
             reservePage(body);
             break;
           case 'check':
@@ -130,7 +136,7 @@ function handleBookFlight(element) {
     let departure = $("#departure").val();
     let destination = $("#destination").val();
     let airline = $("#airline").val();
-    let departureDate = $("#date").val();
+    let departureDate = $("#departure-date").val();
     let departureTime = $("#time").val();
     
     if(!departure|| !destination || !airline || !departureDate || !departureTime) return;
@@ -138,5 +144,38 @@ function handleBookFlight(element) {
     app.init(airline, departure, destination, departureDate, departureTime);
 
     $('[data-page="reserve"]').trigger("click");
+  })
+}
+
+export function handleInputChange(element){
+  let section = $(element).data("section");
+  let key = $(element).data("key");
+  let index = Number($(element).data("index"));
+  let value = $(element).val();
+
+  reserveForm[section][index][key] = value;
+}
+
+export function handleAddPassenger(element) {
+  element.on("click", function() {
+    reserveForm.passengers.push({
+      lastname: "",
+      othernames: "",
+      seatClass: "",
+      age: "",
+      gender: ""
+    })
+
+    reservePage($("#app"));
+  })
+}
+
+export function handleDeletePassenger(element) {
+  element.on("click", function() {
+    let index = Number($(this).data("index"));
+
+    reserveForm.passengers.splice(index, 1);
+
+    reservePage($("#app"));
   })
 }

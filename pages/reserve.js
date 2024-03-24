@@ -1,6 +1,14 @@
-import { app, reserveForm } from "../main";
+import { app, handleAddPassenger, handleDeletePassenger, handleInputChange, reserveForm } from "../main";
+import $ from "jquery";
 import showError from "./error";
 import ticketForm from "./ticket";
+
+const expiryDateConfig = {
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "F j, Y",
+    minDate: "today",
+  }
 
 export default function reservePage(element) {
     if(!app.flightCode){
@@ -48,11 +56,11 @@ export default function reservePage(element) {
         <div class="app_section">
             <div class="app_header">
                 <h3>Passengers</h3>
-                <button type="button" class="add-passenger" disabled=${true}>Add Passenger</button>
+                <button type="button" class="add-passenger" ${(app.capacity - reserveForm.passengers.length) < 1? 'disabled': ''}>Add Passenger</button>
             </div>
             <div class="app_content">
-                ${reserveForm.passengers.map(({lastname, othernames, seatClass, age, gender}, index)=>(
-                    ticketForm({index, lastname, othernames, seatClass, age, gender})
+                ${reserveForm.passengers.map((passenger, index)=>(
+                    ticketForm({index, ...passenger})
                 ))}
             </div>
         </div>
@@ -66,19 +74,19 @@ export default function reservePage(element) {
                 <div class="app_content__contact">
                     <div class="form-input">
                         <label for="lastname">Last name</label>
-                        <input type="text" name="lastname" placeholder="Last name">
+                        <input type="text" class="reserve-input" data-section="contact" data-key="lastname" data-index="0" name="lastname" placeholder="Last name" value="${reserveForm.contact[0].lastname}">
                     </div>
                     <div class="form-input">
                         <label for="firstname">First name and other names</label>
-                        <input type="text" name="firstname" placeholder="First name and other names">
+                        <input type="text" class="reserve-input" data-section="contact" data-key="othernames" data-index="0" name="firstname" placeholder="First name and other names" value="${reserveForm.contact[0].othernames}">
                     </div>
                     <div class="form-input">
                         <label for="email">Email</label>
-                        <input type="email" name="email" placeholder="Email">
+                        <input type="email" class="reserve-input" data-section="contact" data-key="email" data-index="0" name="email" placeholder="Email" value="${reserveForm.contact[0].email}">
                     </div>
                     <div class="form-input">
                         <label for="number">Number</label>
-                        <input type="text" name="number" placeholder="Number">
+                        <input type="text" class="reserve-input" data-section="contact" data-key="number" data-index="0" name="number" placeholder="Number" value="${reserveForm.contact[0].number}">
                     </div>
                 </div>
             </div>
@@ -93,23 +101,26 @@ export default function reservePage(element) {
                 <div class="app_content__payment">
                 <div class="form-input">
                     <label for="cardtype">Number</label>
-                    <input type="text" name="cardtype" placeholder="Card Type">
+                    <select name="cardtype" class="reserve-input" data-section="payment" data-key="cardType" data-index="0">
+                        <option value="" disabled ${reserveForm.payment[0].cardType === "" ? 'selected' : ''} hidden>Card Type</option>
+                        <option value="Visa" ${reserveForm.payment[0].cardType === "Visa" ? 'selected' : ''}>Visa</option>
+                    </select>
                 </div>
                 <div class="form-input">
                     <label for="number">Card Number</label>
-                    <input type="text" name="number" placeholder="Card Number">
+                    <input type="text" class="reserve-input" data-section="payment" data-key="cardNumber" data-index="0" name="number" placeholder="Card Number" value="${reserveForm.payment[0].cardNumber}">
                 </div>
                 <div class="form-input">
                     <label for="name">Name on card</label>
-                    <input type="text" name="name" placeholder="Name on card">
+                    <input type="text" class="reserve-input" data-section="payment" data-key="cardName" data-index="0" name="name" placeholder="Name on card" value="${reserveForm.payment[0].cardName}">
                 </div>
                 <div class="form-input">
                     <label for="expirydate">Expiry Date</label>
-                    <input type="text" name="expirydate" placeholder="Expiry Date">
+                    <input type="text" class="reserve-input" id="expiry-date" data-section="payment" data-key="expiryDate" data-index="0" name="expirydate" placeholder="Expiry Date" value="${reserveForm.payment[0].expiryDate}">
                 </div>
                 <div class="form-input">
                     <label for="cvv">CVV</label>
-                    <input type="text" name="cvv" maxlength="3" placeholder="CVV">
+                    <input type="text" class="reserve-input" data-section="payment" data-key="cvv" data-index="0" name="cvv" maxlength="3" placeholder="CVV" value="${reserveForm.payment[0].cvv}">
                 </div>
                 </div>
             </div>
@@ -119,5 +130,15 @@ export default function reservePage(element) {
         <div class="app_button">
             <button type="button" id="make-reservation">Make Reservation</button>
         </div>
-    `)
+    `);
+
+    // event handler to add new passenger
+    handleAddPassenger($("button.add-passenger"));
+    
+    // event handler to remove passenger
+    handleDeletePassenger($("button.remove-passenger"));
+
+    flatpickr("#expiry-date", expiryDateConfig);
+
+    return $(".reserve-input").on("change", function (){handleInputChange(this)});
 }

@@ -293,7 +293,7 @@ nav{
   height: 48px;
   font-size: 18px;
   background-color: rgba(var(--bg-tertiary), 1);;
-  color: rgba(var(--bg-secondary), 1);;
+  color: rgba(var(--text-secondary), 1);;
   padding: 0 28px;
 }
 
@@ -304,8 +304,8 @@ table {
 
 /* Table header styles */
 th {
-  background-color: rgba(var(--bg-secondary), 1);;
-  color: var(--text-secondary);
+  background-color: rgba(var(--bg-secondary), 0.8);
+  color: rgba(var(--text-secondary), 1);
   padding: 16px 10px;
   text-align: left;
   font-weight: 500;
@@ -326,7 +326,7 @@ td button{
   padding: 12px;
   font-size: 16px;
   border-radius: 4px;
-  color: rgba(var(--bg-secondary), 1);;
+  color: rgba(var(--text-secondary), 1);;
 }
 
 td button.cancel{
