@@ -1,96 +1,52 @@
 import Queue from "./queue";
 import { TicketList } from "./ticket";
 import { ReservationList } from "./reservation";
-import Database from "./database";
-import { data } from "jquery";
-import { saveData } from "../main";
+import { getData, saveData } from "../main";
 
 class ReservationSystem {
     constructor() {
-        this.flightCode = null;
-        this.airline = "";
-        this.model="";
-        this.departure = "";
-        this.departureAirport="";
-        this.departureIATA=""
-        this.destination = "";
-        this.destinationAirport="";
-        this.destinationIATA=""
-        this.leavingAt = "";
-        this.arrivingAt = "";
-        this.leavingTime = "";
-        this.arrivingTime = "";
-        this.capacity = 0;
-        this.economySeats = new Queue();
-        this.businessSeats = new Queue();
-        this.firstClassSeats = new Queue();
-        this.economyPrice = 0;
-        this.businessPrice = 0;
-        this.firstClassPrice = 0;
-        this.ticketsList = new TicketList();
-        this.reservationsList = new ReservationList();
+        this.airline = "Ghana Airways";
+        this.model="Boeing 727";
+        this.departure = "Accra, Ghana";
+        this.departureAirport="Kotoka International Airport";
+        this.departureIATA="GHA-ACC"
+        this.destination = "Kumasi, Ghana";
+        this.destinationAirport="Kumasi Airport";
+        this.destinationIATA="GHA-KMS"
+        this.leavingAt = "March 28, 2024";
+        this.arrivingAt = "March 28, 2024";
+        this.leavingTime = "06:17";
+        this.arrivingTime = "10:40";
+        this.capacity = 137;
+        this.economySeats = new Queue(getData("econ_seat"));
+        this.businessSeats = new Queue(getData("bus_seat"));
+        this.firstClassSeats = new Queue(getData("first_seat"));
+        this.economyPrice = 1005.99;
+        this.businessPrice = 1600.99;
+        this.firstClassPrice = 3000.99;
+        this.ticketsList = new TicketList().populate(getData("tickets"));
+        this.reservationsList = new ReservationList().populate(getData("reservations"));
     }
 
-    // ***********METHODS**************
-    init(airline, departure, destination, leavingAt, leavingTime){
-        this.flush();
-        let activeFlight = Database._flights.find(airline,departure, destination, leavingAt, leavingTime);
-        this.flightCode = activeFlight.flightCode;
-        this.airline = activeFlight.airline;
-        this.model = activeFlight.model;
-        this.departure = activeFlight.departure;
-        this.departureAirport=activeFlight.departureAirport;
-        this.departureIATA=activeFlight.departureIATA;
-        this.destination = activeFlight.destination;
-        this.destinationAirport=activeFlight.destinationAirport;
-        this.destinationIATA=activeFlight.destinationIATA;
-        this.leavingAt = activeFlight.leavingAt;
-        this.arrivingAt = activeFlight.arrivingAt;
-        this.leavingTime = activeFlight.leavingTime;
-        this.arrivingTime = activeFlight.arrivingTime;
-        this.capacity = activeFlight.capacity;
-
-        this.economyPrice = activeFlight.economyPrice;
-        this.businessPrice = activeFlight.businessPrice;
-        this.firstClassPrice = activeFlight.firstClassPrice;
-
-        this.economySeats.populate(activeFlight.economySeats);
-        this.businessSeats.populate(activeFlight.businessSeats);
-        this.firstClassSeats.populate(activeFlight.firstClassSeats);
-        this.ticketsList.populate(Database._tickets.get(this.flightCode))
-        this.reservationsList.populate(Database._reservations.get(this.flightCode));
-    }
-    
-    flush(){
-        if(!this.flightCode) return;
-        // save active flight data to global flights list
-        Database._flights.push(this.#instantiateFlight());
-
-        // save active reservations in global reservations list
-        this.reservationsList.iterate((current)=> {
-            Database._reservations.push(current);
-        }, false);
-        this.reservationsList.head = null;
-
-        // save active tickets in global tickets list
-        this.ticketsList.iterate((current)=>{
-            Database._tickets.push(current);
-        }, false);
-        this.ticketsList.head = null;
-    };
-
+    /** ADD A RESERVATION - 
+     *  add a reservation to the linked list of reservation and 
+     *  add the reservation's tickets in the ticket linked list
+     * 
+     * @param reservation the reservation object of type Reservation class to be added
+     * @param tickets the list of tickets object to be added
+     * 
+     * @returns success | failed
+     */
     addReservation(reservation, tickets) {
-        let newReservationCode = this.#generateReservationCode();
+        let newReservationCode = this.#generateCode();
         this.reservationsList.push({flightCode: this.flightCode, reservationCode: newReservationCode, ...reservation});
 
         tickets.forEach(ticket => {
-            let ticketCode = this.#generateTicketCode();
+            let ticketCode = this.#generateCode();
+            let ticketSeat = "";
+            let ticketPrice = 0;
 
-            // TODO: make sure to check if generated seat is null
-            let ticketSeat = this.#generateSeat(ticket.seatClass);
-
-            // TODO: make sure to check if generated price is null
-            let ticketPrice = this.#generatePrice(ticket.seatClass);
+            // TODO: if ticket seatClass is economy class || business class || first class set the ticketSeat and ticketPrice
 
             this.ticketsList.push({ticketCode, reservationCode: newReservationCode, flightCode: this.flightCode, seat:ticketSeat, price: ticketPrice, ...ticket });
             this.capacity -= 1;
@@ -103,11 +59,24 @@ class ReservationSystem {
         return "success";
     }
 
+    /** CANCEL A RESERVATION -
+     *  cancel a reseravtion that has been made by providing the
+     *  the reservation code
+     * 
+     *  @param rCode the reservation code of the reservation to be cancelled
+     * 
+     *  @returns success | failed
+     */
     cancelReservation(rCode) {
-        this.reservationsList.remove(rCode); // remove specific reservation
-        let relinquishedSeats = this.ticketsList.remove(rCode); // remove all tickets having the reservation code
+        // remove specific reservation
+        this.reservationsList.remove(rCode); 
 
-        relinquishedSeats.forEach(data => {
+        // remove all tickets having the reservation code
+        let reclaimedSeats = this.ticketsList.remove(rCode);
+
+        // loop through the object list of all reclaimed seats and 
+        // add them to the respective seat queue
+        reclaimedSeats.forEach(data => {
             switch (data.class) {
                 case "Economy":
                     this.economySeats.enqueue(data.seat);
@@ -125,121 +94,91 @@ class ReservationSystem {
             this.capacity += 1;
         });
 
-        this,this.saveProgress();
+        // save apllication progress after cancelling
+        this.saveProgress();
 
         return "success";
     }
 
+    /** PRINT A PARTICULAR RSERVATION -
+     *  This methods invokes a funtion that uses the pdfkit library to
+     *  create a pdf format of the reservation details of a particular 
+     *  reservation including its tickets
+     * 
+     * @param rCode the reservation code to be printed
+     * 
+     * @returns success | failed
+     */
     printReservation(rCode) {
 
     }
 
-    checkReservation(lastname) {
+    /** CHECK IF A RESERVATION EXISTS -
+     * This method when called checks if a reservation exists 
+     * in the linked list of reservations based on the provided
+     * reservation secret code and the lastname of reserver
+     * 
+     * @param rCode the reservation code of the reservation to be looked up
+     * @param lastname the lastname of the individual that made the reservation
+     * 
+     * @returns the reservation object || null
+    */
+    checkReservation(rCode, lastname) {
+        // todo: change .getByName to .get
         return this.reservationsList.getByName(lastname);
     }
 
+    /** SAVE PROGRESS -
+     * This method is called when ever there is any mutation such as
+     * creating, deleting or modification done in the aplication.
+     * 
+     * @returns void
+     */
     saveProgress() {
-        let dbReservation = [], 
-            dbFlights = [],
-            dbTickets = [],
-            activeFlight = this.#instantiateFlight(),
-            activeReservations = [],
-            activeTickets = []
+        let reservations = [],
+            tickets = []
 
-        // save dbRservations to list
-        Database._reservations.iterate((current)=> dbReservation.push({...current}), false);
+         // converting linked list of reseravtions to normal list in other to save it
+        this.reservationsList.iterate((current)=> reservations.push({...current}), false);
 
-        // save dbFlights to list
-        Database._flights.iterate((current)=> dbFlights.push({...current}), false);
-
-        // save dbTickets to list
-        Database._tickets.iterate((current)=> dbTickets.push({...current}), false);
-
-        // save reservationList to list
-        this.reservationsList.iterate((current)=> activeReservations.push({...current}), false);
-
-        // save ticketList to list
-        this.ticketsList.iterate((current)=> activeTickets.push({...current}), false);
+        // converting linked list of tickets to normal list in other to save it
+        this.ticketsList.iterate((current)=> tickets.push({...current}), false);
 
         // save reservations
-        saveData("reservations", [...dbReservation, ...activeReservations]);
+        saveData("reservations", reservations);
 
         // save tickets
-        saveData("tickets", [...dbTickets, ...activeTickets]);
+        saveData("tickets", tickets);
 
-        // save flights
-        saveData("flights", [...dbFlights, activeFlight]);
+        // save the list of busness class seats left
+        saveData("bus_seats", this.businessSeats.items);
+
+        // save the list of economy class seats left
+        saveData("econ_seats", this.economySeats.items);
+
+        // save the list of first class seats left
+        saveData("first_seats", this.firstClassSeats.items);
+
+        // save the total capacity of passengers left
+        saveData("capacity", this.capacity);
     }
 
-    #generateReservationCode() {
+    /** GENERATE 8 RANDOM DIGITS - 
+     * This method is called when ever there is the need to generate ids
+     * for newly created tickets and reservations
+     * 
+     * @returns a string of 8 characters
+     */
+    #generateCode() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let code = '';
         for (let i = 0; i < 14; i++) {
+            // for each loop select the a random character from the string of characters 
+            // and add to the code that is to be returned
             const randomIndex = Math.floor(Math.random() * characters.length);
             code += characters[randomIndex];
         }
         return code;
-    }
-
-    #generateTicketCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let code = '';
-        for (let i = 0; i < 7; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            code += characters[randomIndex];
-        }
-        return code;
-    }
-
-    #generateSeat(seatClass) {
-        switch (seatClass) {
-            case "Economy":
-                return this.economySeats.dequeue();
-            case "Business":
-                return this.businessSeats.dequeue();
-            case "First Class":
-                return this.firstClassSeats.dequeue();
-            default:
-                return null;
-        }
-    }
-
-    #generatePrice(seatClass) {
-        switch (seatClass) {
-            case "Economy":
-                return this.economyPrice
-            case "Business":
-                return this.businessPrice
-            case "First Class":
-                return this.firstClassPrice
-            default:
-                return null;
-        }
-    }
-
-    #instantiateFlight(){
-        return {
-            flightCode: this.flightCode,
-            airline: this.airline,
-            model: this.model,
-            departure: this.departure,
-            departureAirport:this.departureAirport,
-            departureIATA:this.departureIATA,
-            destination: this.destination,
-            destinationairport: this.destinationAirport,
-            destinationIATA: this.destinationIATA,
-            leavingAt: this.leavingAt,
-            arrivingAt: this.arrivingAt,
-            leavingTime: this.leavingTime,
-            arrivingTime: this.arrivingTime,
-            capacity: this.capacity,
-            economySeats: this.economySeats.items,
-            businessSeats: this.businessSeats.items,
-            firstClassSeats: this.firstClassSeats.items,
-            economyPrice: this.economyPrice,
-            businessPrice: this.businessPrice,
-            firstClassPrice: this.firstClassPrice,
-        }
     }
 }
 

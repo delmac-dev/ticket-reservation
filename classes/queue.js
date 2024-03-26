@@ -1,10 +1,6 @@
 class Queue {
-    constructor() {
-        this.items = []; // Array to store queue elements
-    }
-
-    populate(items){
-        this.items = items;
+    constructor(items) {
+        this.items = items; // Array to store queue elements
     }
 
     // Method to add an element to the queue

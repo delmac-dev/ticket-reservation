@@ -1,90 +1,79 @@
 import "@fortawesome/fontawesome-free/css/all.css"
 import $ from "jquery";
-import Database from "./classes/database";
-import homePage from "./pages/home";
 import reservePage from "./pages/reserve";
 import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
-import AirlineList from "./classes/airline";
-import flatpickr from "flatpickr";
-import { airlines, availableDeparturtimes, departureLocations, destinationLocations } from "./constants";
 import ReservationSystem from "./classes/system";
-
-const departureDateConfig = {
-  altInput: true,
-  altFormat: "F j, Y",
-  dateFormat: "F j, Y",
-  minDate: "today",
-  maxDate: new Date().fp_incr(14),
-}
 
 export var reserveForm = {}
 
-export var foundReservations = [];
-
-// initialise airline data
-AirlineList.populate(airlines);
-
-// initialise db
-Database.init(getData("flights"),getData("reservations"),getData("tickets"));
+// todo: check if this variable is neccessay
+export var foundReservation = null;
 
 // initialise system
 export const app = new ReservationSystem();
 
+/** JQUERY RUN ON DOCUMENT LOADED - 
+ * this function is a jquery method that is ran when ever the DOM is loaded fully
+ */
 $(function() {
-  // initialise reserve form
+  // initialise reserve form state to default
   initReserverForm();
-
-  // use flatpickr for selecting date
-  flatpickr("#departure-date", departureDateConfig);
-
-  // provide options for neccesary options for select tags
-  provideOptions($("#airline"), airlines, "airline", "airline");
-  provideOptions($("#departure"), departureLocations, "location", "location");
-  provideOptions($("#destination"), destinationLocations, "location", "location");
-  provideOptions($("#time"), availableDeparturtimes, "name", "time");
-
-  // handle flight booked
-  handleBookFlight($("#confirm-flight"));
-
-  // on page load set app content to home;
-  homePage($("#app"));
 
   // function to add events to toggle pages
   togglePages($('.nav-btn'));
 
 });
 
+/** TOGGLES ALL THE PAGES - 
+ * this function enables the pages in html to be toggled based on
+ * the page button that was pressed
+ * 
+ * @param btns the buttons that are binded to the click event
+ */
 function togglePages(btns) {
-    btns.on('click', function() {
-      let body = $("#app");
+  btns.on('click', function() {
+    // getting the element that is going to have the various pages renderd
+    // in it to body
+    let body = $("#app");
 
-      btns.filter('[data-active="true"]').attr('data-active', 'false');
-      $(this).attr('data-active', 'true');
+    // use jquery to filter through all page selection buttons for the button
+    // with data-active equals true and setting it to false
+    btns.filter('[data-active="true"]').attr('data-active', 'false');
 
-      foundReservations = [];
-      
-      const page = $(this).data('page');
-      switch(page) {
-        case 'home':
-          homePage(body);
-          break;
-        case 'reserve':
-          reservePage(body);
-          break;
-        case 'check':
-          checkPage(body);
-          break;
-        case 'show':
-          showPage(body);
-          break;
-        default:
-          break;
-      }
-    })
+    // set the data-active of the selected page selection button to true
+    $(this).attr('data-active', 'true');
+
+    // initializing foundRservation list to an empty array on page change occured
+    foundReservations = [];
+    
+    // using a switch statement to render the respective pages based on the clicked button
+    const page = $(this).data('page');
+    switch(page) {
+      case 'reserve':
+        reservePage(body);
+        break;
+      case 'check':
+        checkPage(body);
+        break;
+      case 'show':
+        showPage(body);
+        break;
+      default:
+        break;
+    }
+  })
 }
 
-function getData(name) {
+/** GET DATA FROM LOCALSTORAGE-
+ * get saved data from browser localstorage based on its name 
+ * and return it in a form of a list
+ * 
+ * @param name the name the data was saved with
+ * 
+ * @returns a list of the saved data | []
+ */
+export function getData(name) {
     // Get the data from local storage based on the provided name
     const data = localStorage.getItem(name);
 
@@ -98,6 +87,12 @@ function getData(name) {
     }
 }
 
+/** SAVE DATA TO LOCALSTORAGE - 
+ * save any data in the application to localstorage
+ * 
+ * @param name the name to store the data by
+ * @param data the data to be stored
+ */
 export function saveData(name, data) {
     // Convert the data to a JSON string
     const jsonData = JSON.stringify(data);
@@ -106,37 +101,33 @@ export function saveData(name, data) {
     localStorage.setItem(name, jsonData);
 }
 
-function provideOptions(element, data, name, value) {
-  data.forEach(item => element.append(`<option value="${item[value]}">${item[name]}</option>`));
-}
-
-function handleBookFlight(element) {
-
-  element.on('click', function(){
-    let departure = $("#departure").val();
-    let destination = $("#destination").val();
-    let airline = $("#airline").val();
-    let departureDate = $("#departure-date").val();
-    let departureTime = $("#time").val();
-    
-    if(!departure|| !destination || !airline || !departureDate || !departureTime) return;
-    
-    app.init(airline, departure, destination, departureDate, departureTime);
-    initReserverForm();
-
-    $('[data-page="reserve"]').trigger("click");
-  })
-}
-
+/** HANDLING INPUT ONCHANGE EVENT - 
+ * save the state of the form input in make reservation form 
+ * 
+ * @param element the input form to bing the onchange event
+ * 
+ * @returns void
+ */
 export function handleInputChange(element){
   let section = $(element).data("section");
   let key = $(element).data("key");
   let index = Number($(element).data("index"));
   let value = $(element).val();
 
+  // saving the current state of an input field in make reseravtion form
   reserveForm[section][index][key] = value;
 }
 
+/** HANDLING BUTTON CLICKED TO ADD PASSENGERS -
+ *  this function is invoked in a reseravation form where
+ *  a reserver books several tickets for a group of people.
+ *  This function increases the number of booked tickets in 
+ * a reservation by one
+ * 
+ * @param element the button to bind the click event
+ * 
+ * @returns void
+ */
 export function handleAddPassenger(element) {
   element.on("click", function() {
     reserveForm.passengers.push({
@@ -151,6 +142,14 @@ export function handleAddPassenger(element) {
   })
 }
 
+/** HANDLING BUTTON CLICKED TO DELETE PASSENGERS -
+ *  this function is invoked when the delete button for a 
+ *  ticket in pressed in the reservation form.
+ * 
+ * @param element the button to bind this click event to 
+ * 
+ * @returns void
+ */
 export function handleDeletePassenger(element) {
   element.on("click", function() {
     let index = Number($(this).data("index"));
@@ -161,10 +160,24 @@ export function handleDeletePassenger(element) {
   })
 };
 
+/** HANDLING BUTTON CLICKED TO MAKE RESERAVATION - 
+ *  invoked by clicking on the make reservation button in the
+ *  reservation form page and gets all the data from the input fields 
+ *  passing them to the addReservation method of the reservationSystem class
+ * 
+ * @param element the html button to bind this click event
+ * 
+ * @returns void
+ */
 export function handleMakeReservation(element){
   element.on("click", function() {
+    // get the reserver information from the reservation form
     let {lastname, othernames, email, number} = reserveForm.contact[0];
+
+    // get the payment infomation from the reseravation form
     let {cardType, cardNumber, cardName, expiryDate, cvv} = reserveForm.payment[0];
+
+    // get the reservation information from the reservation form
     let reservation = {
       lastname,
       othernames,
@@ -178,6 +191,8 @@ export function handleMakeReservation(element){
       totalReserved: reserveForm.passengers.length,
     };
 
+    // pass into the invoked method of instance of reservation system 
+    // the reservation and the tickets in form of list of passengers
     let status = app.addReservation(reservation, reserveForm.passengers);
 
     if(status === "success") {
@@ -192,10 +207,17 @@ export function handleMakeReservation(element){
   })
 }
 
+/** HANDLING BUTTON CLICKED TO CANCEL RSERAVTION - 
+ * invoked by clicking the cancel reservation button that appears 
+ * after a particular reseravtion has been searched by a user
+ * 
+ * @param element the buttton to bind this click event
+ * 
+ * @returns void
+*/
 export function handleCancelReservation(element){
   element.on("click", function() {
     let rCode = $(this).data("code");
-    let index = $(this).data("index");
 
     
     let status = app.cancelReservation(rCode);
@@ -203,29 +225,54 @@ export function handleCancelReservation(element){
     if(status === "success") {
       // show deleted success toast
 
-      // remove reservation from found reservations
-      foundReservations.splice(index, 1);
-
       // rerender checkpage
       checkPage($("#app"));
     }
   })
 }
 
+/** HANDLING BUTTON CLICKED TO CHECK RESERVATION - 
+ * invoked when the button to check reservation in the check reservation page
+ * is clicked and it gets the entered input code and reserver last name and passes
+ * it to reservation system checkRservation method that returns the found reservation
+ * object or null
+ * 
+ * @param form the form to bind the onsubmit event to
+ * 
+ * @returns void
+ */
 export function handleCheckReservation(form){
   form.on("submit", function(event) {
-    // preventdefault code
+    // preventing browser default behaviour when a form input is pressed
     event.preventDefault();
 
+    // getting the reservation code entered
+    let rCode = $("#search-code").val();
+
+    // getting the last name entered
     let lastname = $("#search-reservation").val();
 
-    if(!lastname) return;
+    if(!rCode || !lastname) {
+      // render error toast with msg: fill in all the inputs
+      return
+    }
 
-    foundReservations = app.checkReservation(lastname)
+    foundReservation = app.checkReservation(rCode, lastname);
+
+    // re-render checkPage to show the foundReservation
     checkPage($("#app"));
   })
 }
 
+/** HANDLING BUTTON PRESSED TO PRINT RESERVATION - 
+ *  invoked when a print button that appears after a reservation is made 
+ *  or a particular reseravation is checked is clicked. it calls the 
+ *  the reservation system printReservation method
+ * 
+ * @param element button to bind the click event to
+ * 
+ * @returns void
+ */
 export function handlePrintReservation(element){
   element.on("click", function() {
     let rCode = $(this).data("code");
@@ -238,6 +285,11 @@ export function handlePrintReservation(element){
   })
 }
 
+/** INITIALIZE THE STATE OF RESERVATION FORM - 
+ * sets the state of all the input elements in the make reseravtion form
+ * 
+ * @returns void
+ */
 function initReserverForm() {
   reserveForm = {
     passengers: [
