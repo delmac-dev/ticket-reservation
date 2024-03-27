@@ -43,16 +43,15 @@ class ReservationSystem {
      */
     addReservation(reservation, tickets) {
         let newReservationCode = this.#generateCode();
-        this.reservationsList.push({flightCode: this.flightCode, reservationCode: newReservationCode, ...reservation});
+        this.reservationsList.push({reservationCode: newReservationCode, ...reservation});
 
         tickets.forEach(ticket => {
             let ticketCode = this.#generateCode();
-            let ticketSeat = "";
-            let ticketPrice = 0;
+            let {seat, price} = this.#getSeatDetail(ticket.seatClass);
 
             // TODO: if ticket seatClass is economy class || business class || first class set the ticketSeat and ticketPrice
 
-            this.ticketsList.push({ticketCode, reservationCode: newReservationCode, flightCode: this.flightCode, seat:ticketSeat, price: ticketPrice, ...ticket });
+            this.ticketsList.push({ticketCode, reservationCode: newReservationCode, seat, price, ...ticket });
             this.capacity -= 1;
         });
 
@@ -146,7 +145,7 @@ class ReservationSystem {
 
         // converting linked list of tickets to normal list in other to save it
         this.ticketsList.iterate((current)=> tickets.push({...current}), false);
-
+        
         // save reservations
         saveData("reservations", reservations);
 
@@ -182,6 +181,20 @@ class ReservationSystem {
             code += characters[randomIndex];
         }
         return code;
+    }
+
+    #getSeatDetail(seatType){
+        switch (seatType) {
+            case "Economy":
+                return {seat: this.economySeats.dequeue(), price: this.economyPrice}
+            case "Business":
+                return {seat: this.businessSeats.dequeue(), price: this.businessPrice}
+            case "FirstClass":
+                return {seat: this.firstClassSeats.dequeue(), price: this.firstClassPrice}
+            default:
+                break;
+        }
+
     }
 }
 

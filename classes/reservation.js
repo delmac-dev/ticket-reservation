@@ -1,7 +1,6 @@
 class Reservation {
-    constructor({reservationCode, flightCode, lastname, totalReserved, othernames, email, number, cardType, cardNumber, cardName, expiryDate, cvv}) {
+    constructor({reservationCode,lastname, totalReserved, othernames, email, number, cardType, cardNumber, cardName, expiryDate, cvv}) {
         this.reservationCode = reservationCode;
-        this.flightCode = flightCode;
         this.lastname = lastname;
         this.othernames = othernames
         this.totalReserved = totalReserved;

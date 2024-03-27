@@ -40,7 +40,6 @@ $(function() {
  */
 function togglePages(btns) {
   btns.on('click', function() {
-    console.log("ran");
     // getting the element that is going to have the various pages renderd
     // in it to body
     let body = $("#app");
@@ -179,7 +178,6 @@ export function handleDeletePassenger(element) {
  */
 export function handleMakeReservation(element){
   element.on("click", function() {
-    return showPopup();
     // get the reserver information from the reservation form
     let {lastname, othernames, email, number} = reserveForm.contact[0];
 

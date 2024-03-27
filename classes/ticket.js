@@ -1,8 +1,7 @@
 class Ticket {
-    constructor({ticketCode, reservationCode, flightCode, seat, seatClass, lastname,othernames, age, price, gender}){
+    constructor({ticketCode, reservationCode, seat, seatClass, lastname,othernames, age, price, gender}){
         this.ticketCode = ticketCode;
         this.reservationCode = reservationCode;
-        this.flightCode = flightCode;
         this.seat = seat;
         this.seatClass = seatClass;
         this.lastname = lastname;
