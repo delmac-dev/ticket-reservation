@@ -14,33 +14,8 @@
         <div id="heading">
           <h1>Airline Ticket Reservation System</h1>
         </div>
-        <div id="controls">
-          <div class="control">
-            <select class="select" data-role="select" name="departure" id="departure">
-              <option value="" disabled selected hidden>Departure</option>
-            </select>
-          </div>
-          <div class="control">
-            <select class="select" data-role="select" name="destination" id="destination">
-              <option value="" disabled selected hidden>Destination</option>
-            </select>
-          </div>
-          <div class="control">
-            <select class="select" data-role="select" name="date" id="airline" placeholder="Select airline">
-              <option value="" disabled selected hidden>Airline</option>
-            </select>
-          </div>
-          <div class="control">
-            <input type="text" name="time" id="departure-date" placeholder="Departure Date">
-          </div>
-          <div class="control">
-            <select class="select" data-role="select" name="time" id="time" placeholder="Select departure time">
-              <option value="" disabled selected hidden>Departure Time</option>
-            </select>
-          </div>
-          <div class="control">
-            <button type="button" name="confirm-flight" id="confirm-flight">Book Flight</button>
-          </div>
+        <div id="details">
+          <!-- the flight detail is rendered here from javascript -->
         </div>
       </header>
     </section>
@@ -55,6 +30,7 @@
     </section>
     <section id="down">
       <main id="app">
+        <!-- dynamic page is rendered here using javascript -->
       </main>
     </section>
     <footer>

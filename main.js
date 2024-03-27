@@ -4,6 +4,7 @@ import reservePage from "./pages/reserve";
 import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
 import ReservationSystem from "./classes/system";
+import showDetails from "./pages/details";
 
 export var reserveForm = {}
 
@@ -19,6 +20,9 @@ export const app = new ReservationSystem();
 $(function() {
   // initialise reserve form state to default
   initReserverForm();
+
+  // render the flight detail in the header of html
+  showDetails($("#details"));
 
   // show reserve page on page loaded in #app element
   reservePage($("#app"));
