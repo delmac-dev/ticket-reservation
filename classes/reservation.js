@@ -21,12 +21,23 @@ class ReservationList {
         this.head = null;
     }
 
+    /** POPULATE THE LINKED LIST - 
+     * method to initialise the linked list on page load with data from the file or localstorage
+     * 
+     * @param reservations the list of reservationns fetched from localstorage
+     */
     populate(reservations){
         for(let reservation of reservations) {
             this.push(reservation);
         }
     }
 
+    /** REMOVE A RESERVATION NODE - 
+     * method that removes a particular node from the linked list of
+     * reservations if the provided reservationCode matches any node in the list
+     * 
+     * @param reservationCode the reservation code to remove
+     */
     remove(reservationCode) {
         let current = this.head;
         let prev = null; // Keep track of the previous node
@@ -47,6 +58,11 @@ class ReservationList {
         }
     }
 
+    /** PUSH RESERVATION TO LIST - 
+     * method that adds a new reservation to the linked list of reservations
+     * 
+     * @param reservation the reservation object to be added to the linked list
+     */
     push(reservation){
         let newReservation = new Reservation(reservation);
 
@@ -58,6 +74,13 @@ class ReservationList {
         }
     }
 
+    /** CHECK IF RESEERVATION EXISTS - 
+     * method that checks if a reservation exists from the provided
+     * reservationCode and lastname
+     * 
+     * @param rCode the rservation code
+     * @param lastname the last name of the reserver
+     */
     check(rCode, lastname) {
         let current = this.head;
         while (current) {
@@ -68,6 +91,11 @@ class ReservationList {
         }
     }
     
+    /** GET A PARTICULAR RSERVATION - 
+     * returns a reservation based on the provided reservation code
+     * 
+     * @param reservationCode the reservation code
+     */
     get(reservationCode) {
         let current = this.head;
         while (current) {
@@ -78,6 +106,13 @@ class ReservationList {
         }
     }
 
+    /** LOOP THROUGH LINKEDLIST - 
+     * method that loops through each node in the linked list and runs a 
+     * callback function
+     * 
+     * @param callback the function to be called on each iteration of the loop
+     * @param isRender boolean value to check if the function wishes to render an html content based on the current reservation
+     */
     iterate(callback, isRender = true) {
         let current = this.head;
 
