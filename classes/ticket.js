@@ -34,36 +34,7 @@ class TicketList {
             newTicket.next = this.head;
             this.head = newTicket;
         }
-    }
-
-    get(flightCode) {
-        const tickets = [];
-        let current = this.head;
-        let prev = null; // Keep track of the previous node
-    
-        while (current) {
-            if (current.flightCode === flightCode) {
-                tickets.push(current); // Add the found ticket to the tickets array
-    
-                // If the found ticket is the head, update the head to the next flight
-                if (prev === null) {
-                    this.head = current.next;
-                } else {
-                    // If the found ticket is not the head, skip it by updating the next reference of the previous node
-                    prev.next = current.next;
-                }
-    
-                current.next = null; // Detach the found ticket from the list
-                current = prev ? prev.next : this.head; // Move current to the next node after removal
-            } else {
-                // Move to the next node
-                prev = current;
-                current = current.next;
-            }
-        }
-    
-        return tickets; // Return the array of found tickets
-    }    
+    }  
 
     remove(reservationCode) {
         let seats = [];
@@ -94,7 +65,7 @@ class TicketList {
         return seats;
     }
 
-    getByReservation(reservationCode) {
+    get(reservationCode) {
         const tickets = [];
         let current = this.head;
         while (current) {

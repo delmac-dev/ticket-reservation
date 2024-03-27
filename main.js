@@ -8,7 +8,7 @@ import ReservationSystem from "./classes/system";
 export var reserveForm = {}
 
 // todo: check if this variable is neccessay
-export var foundReservation = null;
+export var foundReservation = {};
 
 // initialise system
 export const app = new ReservationSystem();
@@ -19,6 +19,9 @@ export const app = new ReservationSystem();
 $(function() {
   // initialise reserve form state to default
   initReserverForm();
+
+  // show reserve page on page loaded in #app element
+  reservePage($("#app"));
 
   // function to add events to toggle pages
   togglePages($('.nav-btn'));
@@ -33,6 +36,7 @@ $(function() {
  */
 function togglePages(btns) {
   btns.on('click', function() {
+    console.log("ran");
     // getting the element that is going to have the various pages renderd
     // in it to body
     let body = $("#app");
@@ -45,7 +49,7 @@ function togglePages(btns) {
     $(this).attr('data-active', 'true');
 
     // initializing foundRservation list to an empty array on page change occured
-    foundReservations = [];
+    foundReservation = {};
     
     // using a switch statement to render the respective pages based on the clicked button
     const page = $(this).data('page');

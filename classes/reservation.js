@@ -27,35 +27,6 @@ class ReservationList {
         }
     }
 
-    get(flightCode) {
-        const reservations = [];
-        let current = this.head;
-        let prev = null; // Keep track of the previous node
-    
-        while (current) {
-            if (current.flightCode === flightCode) {
-                reservations.push(current); // Add the found reservation to the reservations array
-    
-                // If the found reservation is the head, update the head to the next flight
-                if (prev === null) {
-                    this.head = current.next;
-                } else {
-                    // If the found ticket is not the head, skip it by updating the next reference of the previous node
-                    prev.next = current.next;
-                }
-    
-                current.next = null; // Detach the found reservation from the list
-                current = prev ? prev.next : this.head; // Move current to the next node after removal
-            } else {
-                // Move to the next node
-                prev = current;
-                current = current.next;
-            }
-        }
-    
-        return reservations; // Return the array of found reservations
-    } 
-
     remove(reservationCode) {
         let current = this.head;
         let prev = null; // Keep track of the previous node
@@ -87,28 +58,24 @@ class ReservationList {
         }
     }
 
-    getByName(lastname) {
-        const reservations = [];
+    check(rCode, lastname) {
         let current = this.head;
         while (current) {
-            if (current.lastname === lastname) {
-                reservations.push(current);
+            if (current.lastname === lastname && current.reservationCode === rCode) {
+                return current;
             }
             current = current.next;
         }
-        return reservations;
     }
     
-    getByCode(reservationCode) {
-        const reservations = [];
+    get(reservationCode) {
         let current = this.head;
         while (current) {
             if (current.reservationCode === reservationCode) {
-                reservations.push(current);
+                return current;
             }
             current = current.next;
         }
-        return reservations;
     }
 
     iterate(callback, isRender = true) {

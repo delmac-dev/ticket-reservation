@@ -24,8 +24,12 @@ class ReservationSystem {
         this.economyPrice = 1005.99;
         this.businessPrice = 1600.99;
         this.firstClassPrice = 3000.99;
-        this.ticketsList = new TicketList().populate(getData("tickets"));
-        this.reservationsList = new ReservationList().populate(getData("reservations"));
+        this.ticketsList = new TicketList();
+        this.reservationsList = new ReservationList();
+
+        // populate the linked lists
+        this.ticketsList.populate(getData("tickets"));
+        this.reservationsList.populate(getData("reservations"));
     }
 
     /** ADD A RESERVATION - 
@@ -124,8 +128,7 @@ class ReservationSystem {
      * @returns the reservation object || null
     */
     checkReservation(rCode, lastname) {
-        // todo: change .getByName to .get
-        return this.reservationsList.getByName(lastname);
+        return this.reservationsList.get(rCode, lastname);
     }
 
     /** SAVE PROGRESS -
