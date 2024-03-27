@@ -9,7 +9,7 @@ import showDetails from "./pages/details";
 export var reserveForm = {}
 
 // todo: check if this variable is neccessay
-export var foundReservation = {};
+export var foundReservation = null;
 
 // initialise system
 export const app = new ReservationSystem();
@@ -53,7 +53,7 @@ function togglePages(btns) {
     $(this).attr('data-active', 'true');
 
     // initializing foundRservation list to an empty array on page change occured
-    foundReservation = {};
+    foundReservation = null;
     
     // using a switch statement to render the respective pages based on the clicked button
     const page = $(this).data('page');

@@ -13,6 +13,7 @@ export default function checkPage(element) {
                     <div class="form-input">
                         <label for="search-reservation">Search for a reservation in this flight by last name</label>
                         <form>
+                            <input type="text" name="search-code" id="search-code" placeholder="Enter reservation code">
                             <input type="text" name="search-reservation" id="search-reservation" placeholder="Enter last name">
                             <button type="submit">Search</button>
                         </div>
@@ -22,9 +23,9 @@ export default function checkPage(element) {
         </div>
 
         <!-- ======================THIRD SECTION======================= -->
-        <div class="app_section">
+        ${!!foundReservation ? (`<div class="app_section">
             <div class="app_header">
-            <h3>Found Reservations</h3>
+                <h3>My Reservation</h3>
             </div>
             <div class="app_content">
                 <table class="app_content__reserve-table">
@@ -42,7 +43,7 @@ export default function checkPage(element) {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>`): ''}
     `);
     
     // added eventlistener to search for reservation on click
