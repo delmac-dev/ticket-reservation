@@ -9,7 +9,6 @@ import showDetails from "./pages/details";
 
 export var reserveForm = {}
 
-// todo: check if this variable is neccessay
 export var foundReservation = null;
 
 // initialise system
@@ -180,6 +179,7 @@ export function handleDeletePassenger(element) {
  */
 export function handleMakeReservation(element){
   element.on("click", function() {
+    return showPopup();
     // get the reserver information from the reservation form
     let {lastname, othernames, email, number} = reserveForm.contact[0];
 
@@ -206,6 +206,7 @@ export function handleMakeReservation(element){
 
     if(status === "success") {
       // show reservation success popup;
+      showPopup();
 
       // initialise reserveForm
       initReserverForm();
@@ -368,4 +369,74 @@ function showToast(message, type) {
           }
       });
   }, 2000);
+}
+
+// Function to animate the popup using Anime.js and show it
+function showPopup() {
+  // Select the backdrop and popup container
+  const backdrop = $('.backdrop');
+  const popup = $('#popupContainer');
+
+  // Animate the backdrop using Anime.js
+  anime({
+      targets: backdrop[0],
+      opacity: [0, 0.1], // Fade in with opacity 0.1
+      duration: 300,
+      easing: 'easeOutQuart',
+      begin: function(anim) {
+          backdrop.css('display', 'block'); // Show the backdrop initially
+      }
+  });
+
+  // Animate the popup using Anime.js
+  anime({
+      targets: popup[0],
+      scale: [0, 1], // Scale from 0 to 1
+      opacity: [0, 1], // Fade in
+      duration: 300,
+      easing: 'easeOutQuart',
+      begin: function(anim) {
+          popup.css('display', 'block'); // Show the popup initially
+      }
+  });
+
+  // Event listener for the close button inside the popup
+  $('.close-button').on('click', function() {
+    closePopup();
+  });
+
+  // Event listener for the backdrop to close the popup
+  $('.backdrop').on('click', function() {
+    closePopup();
+  });
+}
+
+// Function to close the popup and backdrop
+function closePopup() {
+  // Select the backdrop and popup container
+  const backdrop = $('.backdrop');
+  const popup = $('#popupContainer');
+
+  // Animate the backdrop using Anime.js to fade out
+  anime({
+      targets: backdrop[0],
+      opacity: [0.1, 0], // Fade out from opacity 0.1
+      duration: 200,
+      easing: 'easeInQuart',
+      complete: function(anim) {
+          backdrop.css('display', 'none'); // Hide the backdrop after animation
+      }
+  });
+
+  // Animate the popup using Anime.js to scale down and fade out
+  anime({
+      targets: popup[0],
+      scale: [1, 0], // Scale down from 1 to 0
+      opacity: [1, 0], // Fade out
+      duration: 200,
+      easing: 'easeInQuart',
+      complete: function(anim) {
+          popup.css('display', 'none'); // Hide the popup after animation
+      }
+  });
 }
