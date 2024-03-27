@@ -6,6 +6,7 @@
   --bg-tertiary: 29, 78, 216;
   --bg-card: 239, 246, 255;
   --bg-danger: 220, 38, 38;
+  --bg-success: 76, 175, 80;
 
   --fg-main: 23, 37, 84;
   --fg-secondary: 36, 36, 36;
@@ -20,6 +21,33 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  max-height: calc(100vh - 40px); 
+  overflow: hidden;
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  padding: 10px;
+}
+
+.toast {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: rgba(var(--text-main), 1);
+  font-size: 16px;
+}
+.success {
+  background-color: rgba(var(--bg-success), 0.1);
+  border-left: 8px solid rgba(var(--bg-success), 1);
+}
+.error {
+  background-color: rgba(var(--bg-danger), 0.1);
+  border-left: 8px solid rgba(var(--bg-danger), 1);
 }
 
 button {

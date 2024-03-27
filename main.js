@@ -1,5 +1,6 @@
 import "@fortawesome/fontawesome-free/css/all.css"
 import $ from "jquery";
+import anime from "animejs";
 import reservePage from "./pages/reserve";
 import checkPage from "./pages/check";
 import { showPage } from "./pages/show";
@@ -262,6 +263,7 @@ export function handleCheckReservation(form){
 
     if(!rCode || !lastname) {
       // render error toast with msg: fill in all the inputs
+      showToast("Please fill in all info", "error");
       return
     }
 
@@ -323,4 +325,47 @@ function initReserverForm() {
       cvv: ""
     }]
   }
+}
+
+/** SHOW TOAST ON BUTTON CLICKED - 
+ * when ever it is called shows a toast message based on message and type
+ * 
+ * @param message the message to show to user
+ * @param type the type of the toast to show ie. error | success
+ * 
+ * @returns void
+ */
+function showToast(message, type) {
+  // Create a new toast div with the message and type
+  let toast = $('<div>', {
+      class: 'toast ' + type,
+      text: message
+  });
+
+  // Append the toast to the toast container
+  $('.toast-container').append(toast);
+
+  // Animate the toast using Anime.js
+  anime({
+      targets: toast[0], // Select the raw DOM element
+      translateX: ['100%', 0], // Slide in from left (-100% to 0)
+      opacity: [0, 1], // Fade in
+      easing: 'easeOutExpo', // Easing function
+      duration: 500 // Animation duration in milliseconds
+  });
+
+  // Set a timeout to remove the toast after 1000ms (1 second)
+  setTimeout(function() {
+      // Animate the toast out before removing it
+      anime({
+          targets: toast[0], // Select the raw DOM element
+          translateX: [0, '100%'], // Slide out to left (0 to -100%)
+          opacity: [1, 0], // Fade out
+          easing: 'easeInExpo', // Easing function
+          duration: 500, // Animation duration in milliseconds
+          complete: function() {
+              toast.remove(); // Remove the toast from the DOM after animation
+          }
+      });
+  }, 2000);
 }
